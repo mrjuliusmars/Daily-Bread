@@ -156,8 +156,8 @@ struct CreatingPlanView: View {
                                         endPoint: .trailing
                                     )
                                 )
-                                .frame(width: progressGeometry.size.width * progress, height: 4)
-                                .animation(.linear(duration: 0.3), value: progress)
+                                .frame(width: max(0, progressGeometry.size.width * progress), height: 4)
+                                .clipped()
                         }
                     }
                     .frame(height: 4)
@@ -176,6 +176,9 @@ struct CreatingPlanView: View {
     }
     
     private func startLoading() {
+        // Ensure progress starts at 0
+        progress = 0
+        
         // Set rotation to start animation
         rotation = 360
         
@@ -185,9 +188,11 @@ struct CreatingPlanView: View {
         // Start dots animation
         dotsOffset = -5
         
-        // Animate progress
-        withAnimation(.linear(duration: 6)) {
-            progress = 1.0
+        // Animate progress from 0 to 100% over 6 seconds
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.linear(duration: 6)) {
+                progress = 1.0
+            }
         }
         
         // Cycle through messages with haptic feedback

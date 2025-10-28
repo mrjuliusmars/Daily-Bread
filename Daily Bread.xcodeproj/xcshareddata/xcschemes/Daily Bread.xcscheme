@@ -29,6 +29,30 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "225CFF402EAA6CCD00448CAC"
+               BuildableName = "Daily BreadUITests.xctest"
+               BlueprintName = "Daily BreadUITests"
+               ReferencedContainer = "container:Daily Bread.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "225CFF362EAA6CCD00448CAC"
+               BuildableName = "Daily BreadTests.xctest"
+               BlueprintName = "Daily BreadTests"
+               ReferencedContainer = "container:Daily Bread.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

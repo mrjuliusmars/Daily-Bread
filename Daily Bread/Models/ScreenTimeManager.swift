@@ -2,28 +2,46 @@
 //  ScreenTimeManager.swift
 //  Daily Bread
 //
-//  Screen Time Management
+//  Screen Time Management using FamilyControls
 //
 
 import Foundation
+import FamilyControls
 import ManagedSettings
 
 @MainActor
 class ScreenTimeManager: ObservableObject {
+    @Published var authorizationStatus: AuthorizationStatus = .notDetermined
     @Published var isAuthorized = false
     
+    private let authorizationCenter = AuthorizationCenter.shared
+    
     init() {
-        // Screen Time authorization is handled at the system level
-        isAuthorized = true
+        Task {
+            await checkAuthorization()
+        }
     }
     
     func requestAuthorization() async throws {
-        // Authorization granted by using the app
-        isAuthorized = true
+        do {
+            try await authorizationCenter.requestAuthorization(for: .individual)
+            await checkAuthorization()
+        } catch {
+            print("Screen Time authorization error: \(error)")
+            throw error
+        }
     }
     
     func checkAuthorization() async {
-        isAuthorized = true
+        authorizationStatus = authorizationCenter.authorizationStatus
+        isAuthorized = (authorizationStatus == .approved)
+    }
+    
+    func createAppShield(applicationTokens: Set<ApplicationToken>) {
+        let storeName = ManagedSettingsStore.Name("main")
+        let store = ManagedSettingsStore(named: storeName)
+        store.clearAllSettings()
+        store.shield.applications = applicationTokens
     }
 }
 

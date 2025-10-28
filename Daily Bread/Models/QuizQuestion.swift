@@ -40,7 +40,7 @@ let quizQuestions: [QuizQuestion] = [
     QuizQuestion(
         id: 4,
         question: "What challenges are you currently facing?",
-        options: ["Lust/Pornography", "Alcohol addiction", "Smoking/Drugs", "Anxiety", "Depression", "Anger", "Pride", "Greed", "Envy", "Laziness", "Fear", "Doubt", "Loneliness", "Grief", "Financial stress", "Relationship issues", "Work stress", "Health problems", "None of these"],
+        options: ["Lust", "Alcohol addiction", "Smoking/Drugs", "Anxiety", "Depression", "Anger", "Pride", "Greed", "Envy", "Laziness", "Fear", "Doubt", "Loneliness", "Grief", "Financial stress", "Relationship issues", "Work stress", "Health problems", "None of these"],
         subtitle: "Select all that apply",
         allowsMultipleSelection: true
     ),

@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 
 struct UserInfoView: View {
     @EnvironmentObject var onboardingState: OnboardingState
@@ -192,6 +193,16 @@ struct UserInfoView: View {
                                 if let ageInt = Int(onboardingState.age) { 
                                     UserDefaults.standard.set(ageInt, forKey: "userAge") 
                                 }
+                                
+                                // Save quiz answers (including challenges and goals) to UserSettings
+                                let userSettings = UserSettings.shared
+                                if let question4Answers = onboardingState.quizAnswers[4] {
+                                    userSettings.selectedChallenges = Set(question4Answers)
+                                }
+                                if let question5Answers = onboardingState.quizAnswers[5] {
+                                    userSettings.selectedGoals = Set(question5Answers)
+                                }
+                                userSettings.saveSettings()
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                                     onboardingState.navigateTo(.creatingPlan)

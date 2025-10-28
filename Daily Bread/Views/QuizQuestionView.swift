@@ -61,8 +61,9 @@ struct QuizQuestionView: View {
                         .blur(radius: 15)
                 }
                 
-                ScrollView {
-                    VStack(spacing: 0) {
+                VStack(spacing: 0) {
+                    ScrollView {
+                        VStack(spacing: 0) {
                     // Top branding
                     VStack(spacing: 8) {
                         HStack {
@@ -164,10 +165,42 @@ struct QuizQuestionView: View {
                             .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showContent)
                             .padding(.horizontal, 24)
                             .padding(.top, 12)
-                            .padding(.bottom, 12)
+                            .padding(.bottom, 8)
+                        
+                        // Bible verse messaging for questions 4 and 5
+                        if questionNumber == 4 || questionNumber == 5 {
+                            HStack(spacing: 8) {
+                                Image(systemName: "book.fill")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255))
+                                
+                                Text(questionNumber == 4 ? 
+                                     "These will determine the Bible verses you receive to help with your struggles" :
+                                     "These will determine the Bible verses you receive to support your spiritual journey")
+                                    .font(.system(size: 13, weight: .medium))
+                                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.9))
+                                    .multilineTextAlignment(.leading)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .fill(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.15))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .stroke(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.4), lineWidth: 1)
+                                    )
+                            )
+                            .padding(.horizontal, 24)
+                            .padding(.bottom, 8)
+                            .opacity(showContent ? 1.0 : 0.0)
+                            .offset(y: showContent ? 0 : 20)
+                            .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.1), value: showContent)
+                        }
                     
-                        // Options
-                        VStack(spacing: 12) {
+                        // Options - reduced spacing and padding to fit more on screen
+                        VStack(spacing: 10) {
                             ForEach(Array(question.options.enumerated()), id: \.offset) { index, option in
                                 Button(action: {
                                     // Haptic feedback
@@ -232,30 +265,30 @@ struct QuizQuestionView: View {
                                         
                                         // Option text
                                         Text(option)
-                                            .font(.system(size: 16, weight: .medium))
+                                            .font(.system(size: 15, weight: .medium))
                                             .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945)) // Ivory White #FFF9F1
                                             .multilineTextAlignment(.leading)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                         
                                         Spacer()
                                     }
-                                            .padding(.horizontal, 20)
-                                            .padding(.vertical, 16)
-                                            .background(
+                                    .padding(.horizontal, 18)
+                                    .padding(.vertical, 14)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 12)
+                                            .fill(
+                                                selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                Color.white.opacity(0.08) : Color.white.opacity(0.03)
+                                            )
+                                            .overlay(
                                                 RoundedRectangle(cornerRadius: 12)
-                                                    .fill(
+                                                    .stroke(
                                                         selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                        Color.white.opacity(0.08) : Color.white.opacity(0.03)
-                                                    )
-                                                    .overlay(
-                                                        RoundedRectangle(cornerRadius: 12)
-                                                            .stroke(
-                                                                selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                                Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.4) : Color.white.opacity(0.1), // Gold border for selected
-                                                                lineWidth: 1.5
-                                                            )
+                                                        Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.4) : Color.white.opacity(0.1), // Gold border for selected
+                                                        lineWidth: 1.5
                                                     )
                                             )
+                                    )
                                 }
                                 .scaleEffect(selectedOptions.contains(index) || currentAnswers.contains(index) ? 1.02 : 1.0)
                                 .opacity(showOptions ? 1.0 : 0.0)
@@ -265,44 +298,63 @@ struct QuizQuestionView: View {
                             }
                         }
                         .padding(.horizontal, 24)
-                        
-                        // Continue button for multi-select questions
-                        if question.allowsMultipleSelection {
-                            Button(action: {
-                                let impact = UIImpactFeedbackGenerator(style: .medium)
-                                impact.impactOccurred()
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        .padding(.bottom, question.allowsMultipleSelection ? 100 : 20) // Extra padding at bottom for multi-select
+                    }
+                    }
+                }
+                
+                    // Sticky Continue button for multi-select questions (fixed at bottom)
+                    if question.allowsMultipleSelection {
+                        VStack(spacing: 0) {
+                            // Gradient fade to indicate more content above
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0),
+                                    Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0.3),
+                                    Color(red: 0.05, green: 0.1, blue: 0.35)
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 20)
+                            
+                            // Button container
+                            VStack(spacing: 0) {
+                                Button(action: {
+                                    let impact = UIImpactFeedbackGenerator(style: .medium)
+                                    impact.impactOccurred()
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                         if questionNumber == quizQuestions.count {
                                             onboardingState.navigateTo(.userInfo)
-                                    } else {
-                                        onboardingState.navigateTo(.quiz(questionNumber + 1))
+                                        } else {
+                                            onboardingState.navigateTo(.quiz(questionNumber + 1))
+                                        }
                                     }
+                                }) {
+                                    Text("Continue")
+                                        .font(.system(size: 18, weight: .bold))
+                                        .foregroundColor(.black)
+                                        .frame(maxWidth: .infinity)
+                                        .frame(height: 54)
+                                        .background(Color(red: 1.0, green: 0.976, blue: 0.945)) // Ivory White #FFF9F1
+                                        .clipShape(Capsule())
+                                        .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
                                 }
-                            }) {
-                                Text("Continue")
-                                    .font(.system(size: 18, weight: .bold))
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 54)
-                                    .background(Color(red: 1.0, green: 0.976, blue: 0.945)) // Ivory White #FFF9F1
-                                    .clipShape(Capsule())
-                                    .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
+                                .padding(.horizontal, 24)
+                                .padding(.top, 12)
+                                .padding(.bottom, max(geometry.safeAreaInsets.bottom + 16, 32))
                             }
-                            .padding(.horizontal, 24)
-                            .padding(.top, 20)
-                            .opacity(showOptions ? 1.0 : 0.0)
-                            .offset(y: showOptions ? 0 : 20)
-                            .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.8), value: showOptions)
+                            .background(Color(red: 0.05, green: 0.1, blue: 0.35))
                         }
-                    }
-                
-                    Spacer()
-                
-                    // Bottom spacing
-                    Rectangle()
-                        .fill(Color.clear)
-                        .frame(height: geometry.safeAreaInsets.bottom + 32)
+                        .opacity(showOptions ? 1.0 : 0.0)
+                        .offset(y: showOptions ? 0 : 20)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.5), value: showOptions)
+                    } else {
+                        // Bottom spacing for single-select questions
+                        Rectangle()
+                            .fill(Color.clear)
+                            .frame(height: geometry.safeAreaInsets.bottom + 32)
                     }
                 }
             }

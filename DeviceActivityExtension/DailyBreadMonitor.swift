@@ -5,18 +5,32 @@
 
 import DeviceActivity
 import ManagedSettings
+import FamilyControls
 
 class DailyBreadMonitor: DeviceActivityMonitor {
     let store = ManagedSettingsStore(named: .main)
     
     override func intervalDidStart(for activity: DeviceActivityName) {
         super.intervalDidStart(for: activity)
-        print("📱 Device activity started")
+        
+        // When the scheduled interval starts, block the apps
+        // Get the saved app tokens
+        if let savedData = UserDefaults.standard.data(forKey: "selectedApps"),
+           let tokens = try? JSONDecoder().decode(FamilyActivitySelection.self, from: savedData) {
+            store.shield.applications = tokens.applicationTokens
+            print("✅ Shield applied to \(tokens.applicationTokens.count) apps at scheduled time")
+        }
+        
+        print("🔒 Apps are now blocked - waiting for user to read Bible verse")
     }
     
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
-        print("✅ Device activity ended")
+        
+        // When the interval ends (or after reading the verse), unblock apps
+        store.clearAllSettings()
+        
+        print("✅ Apps are unblocked")
     }
     
     override func eventDidReachThreshold(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
