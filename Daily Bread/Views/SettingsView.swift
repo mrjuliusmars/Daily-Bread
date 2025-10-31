@@ -13,6 +13,7 @@ struct SettingsView: View {
     @StateObject private var userSettings = UserSettings.shared
     @State private var showChallengesEditor = false
     @State private var showGoalsEditor = false
+    @State private var showBlockingTimeEditor = false
     @State private var isVisible = false
     
     var body: some View {
@@ -73,7 +74,7 @@ struct SettingsView: View {
                             HStack(spacing: 12) {
                                 Image(systemName: "info.circle.fill")
                                     .font(.system(size: 20))
-                                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255))
+                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                                 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Personalize Your Daily Verses")
@@ -92,10 +93,10 @@ struct SettingsView: View {
                             .padding(.vertical, 16)
                             .background(
                                 RoundedRectangle(cornerRadius: 16)
-                                    .fill(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.15))
+                                    .fill(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.15))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 16)
-                                            .stroke(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.4), lineWidth: 1.5)
+                                            .stroke(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.4), lineWidth: 1.5)
                                     )
                             )
                             .padding(.horizontal, 24)
@@ -115,7 +116,7 @@ struct SettingsView: View {
                                     subtitle: getChallengesSubtitle(),
                                     description: "Verses to help with your struggles",
                                     icon: "exclamationmark.triangle.fill",
-                                    iconColor: Color(red: 255/255, green: 215/255, blue: 0/255)
+                                    iconColor: Color(red: 1.0, green: 0.976, blue: 0.945)
                                 )
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -134,13 +135,32 @@ struct SettingsView: View {
                                     subtitle: getGoalsSubtitle(),
                                     description: "Verses to support your spiritual journey",
                                     icon: "target",
-                                    iconColor: Color(red: 255/255, green: 215/255, blue: 0/255)
+                                    iconColor: Color(red: 1.0, green: 0.976, blue: 0.945)
                                 )
                             }
                             .buttonStyle(PlainButtonStyle())
                             .opacity(isVisible ? 1.0 : 0.0)
                             .offset(x: isVisible ? 0 : -20)
                             .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.25), value: isVisible)
+                            
+                            // Blocking Time Row
+                            Button(action: {
+                                let impact = UIImpactFeedbackGenerator(style: .medium)
+                                impact.impactOccurred()
+                                showBlockingTimeEditor = true
+                            }) {
+                                SettingsRow(
+                                    title: "Blocking Time",
+                                    subtitle: getBlockingTimeSubtitle(),
+                                    description: "When apps are blocked each day",
+                                    icon: "clock.fill",
+                                    iconColor: Color(red: 1.0, green: 0.976, blue: 0.945)
+                                )
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .opacity(isVisible ? 1.0 : 0.0)
+                            .offset(x: isVisible ? 0 : -20)
+                            .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.35), value: isVisible)
                         }
                         .padding(.bottom, max(geometry.safeAreaInsets.bottom + 20, 40))
                     }
@@ -153,6 +173,9 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showGoalsEditor) {
             GoalsEditorView()
+        }
+        .sheet(isPresented: $showBlockingTimeEditor) {
+            BlockingTimeEditorView()
         }
         .onAppear {
             // Animate in
@@ -182,6 +205,14 @@ struct SettingsView: View {
         } else {
             return "\(goals.count) selected"
         }
+    }
+    
+    private func getBlockingTimeSubtitle() -> String {
+        let hour = UserDefaults.standard.object(forKey: "blockingHour") as? Int ?? 14
+        let minute = UserDefaults.standard.object(forKey: "blockingMinute") as? Int ?? 37
+        let hour12 = hour % 12 == 0 ? 12 : hour % 12
+        let amPm = hour < 12 ? "AM" : "PM"
+        return String(format: "%d:%02d %@", hour12, minute, amPm)
     }
 }
 
@@ -222,7 +253,7 @@ struct SettingsRow: View {
                 
                 Text(description)
                     .font(.system(size: 12, weight: .regular))
-                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.8))
+                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.8))
                     .lineLimit(2)
             }
             

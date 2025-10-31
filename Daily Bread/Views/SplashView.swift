@@ -26,7 +26,7 @@ struct SplashView: View {
             .ignoresSafeArea()
             
             // DailyBread Logo centered
-            Image("DailyBread_Transparent")
+            Image("Iconpng")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)

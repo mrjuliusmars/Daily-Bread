@@ -31,9 +31,8 @@ struct GoalsEditorView: View {
                 )
                 .ignoresSafeArea()
                 
-                VStack(spacing: 0) {
-                    ScrollView {
-                        VStack(spacing: 0) {
+                ScrollView {
+                    VStack(spacing: 0) {
                         // Header
                         VStack(spacing: 16) {
                             HStack {
@@ -67,7 +66,7 @@ struct GoalsEditorView: View {
                             
                             Text("Your goals determine which Bible verses you'll receive to support your spiritual journey")
                                 .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.9))
+                                .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.9))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 24)
                                 .padding(.top, 8)
@@ -103,7 +102,7 @@ struct GoalsEditorView: View {
                                             Circle()
                                                 .fill(
                                                     selectedGoals.contains(index) ?
-                                                    Color(red: 255/255, green: 215/255, blue: 0/255) :
+                                                    Color(red: 1.0, green: 0.976, blue: 0.945) :
                                                     Color.white.opacity(0.1)
                                                 )
                                                 .frame(width: 32, height: 32)
@@ -111,7 +110,7 @@ struct GoalsEditorView: View {
                                                     Circle()
                                                         .stroke(
                                                             selectedGoals.contains(index) ?
-                                                        Color(red: 255/255, green: 215/255, blue: 0/255) :
+                                                        Color(red: 1.0, green: 0.976, blue: 0.945) :
                                                         Color.white.opacity(0.3),
                                                             lineWidth: 2
                                                         )
@@ -143,7 +142,7 @@ struct GoalsEditorView: View {
                                                 RoundedRectangle(cornerRadius: 12)
                                                     .stroke(
                                                         selectedGoals.contains(index) ?
-                                                        Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.4) :
+                                                        Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.4) :
                                                         Color.white.opacity(0.1),
                                                         lineWidth: 1.5
                                                     )
@@ -158,26 +157,8 @@ struct GoalsEditorView: View {
                         }
                         .padding(.horizontal, 24)
                         .padding(.top, 32)
-                        .padding(.bottom, 100) // Extra padding for sticky button
-                    }
-                }
-                
-                // Sticky Save button (fixed at bottom)
-                VStack(spacing: 0) {
-                    // Gradient fade to indicate more content above
-                    LinearGradient(
-                        colors: [
-                            Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0),
-                            Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0.3),
-                            Color(red: 0.05, green: 0.1, blue: 0.35)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 20)
-                    
-                    // Button container
-                    VStack(spacing: 0) {
+                        
+                        // Save Button
                         Button(action: {
                             let impact = UIImpactFeedbackGenerator(style: .medium)
                             impact.impactOccurred()
@@ -200,19 +181,17 @@ struct GoalsEditorView: View {
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity)
                                 .frame(height: 54)
-                                .background(Color(red: 255/255, green: 215/255, blue: 0/255))
+                                .background(Color(red: 1.0, green: 0.976, blue: 0.945))
                                 .clipShape(Capsule())
                                 .shadow(color: .black.opacity(0.25), radius: 12, x: 0, y: 6)
                         }
                         .padding(.horizontal, 24)
-                        .padding(.top, 12)
-                        .padding(.bottom, max(geometry.safeAreaInsets.bottom + 16, 32))
+                        .padding(.top, 40)
+                        .padding(.bottom, max(geometry.safeAreaInsets.bottom + 20, 40))
+                        .opacity(isVisible ? 1.0 : 0.0)
+                        .offset(y: isVisible ? 0 : 20)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.3), value: isVisible)
                     }
-                    .background(Color(red: 0.05, green: 0.1, blue: 0.35))
-                }
-                .opacity(isVisible ? 1.0 : 0.0)
-                .offset(y: isVisible ? 0 : 20)
-                .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(0.3), value: isVisible)
                 }
             }
         }

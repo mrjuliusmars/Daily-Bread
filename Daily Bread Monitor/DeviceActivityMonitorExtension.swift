@@ -18,26 +18,34 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         super.intervalDidStart(for: activity)
         
         // CRITICAL: Log to both NSLog (shows in Console.app) and print
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .medium
+        formatter.timeZone = TimeZone.current
+        let localTime = formatter.string(from: Date())
+        
         NSLog("🕐 DeviceActivityMonitorExtension: intervalDidStart called for activity: \(activity)")
-        NSLog("🕐 Current time: \(Date())")
+        NSLog("🕐 Current LOCAL time: \(localTime)")
         print("🕐 DeviceActivityMonitorExtension: intervalDidStart called for activity: \(activity)")
-        print("🕐 Current time: \(Date())")
+        print("🕐 Current LOCAL time: \(localTime)")
         
         // When the scheduled interval starts, block the apps
-        // Try both App Group and standard UserDefaults
-        let appGroupDefaults = UserDefaults(suiteName: "group.com.mjhventures.dailybread")
+        // Use standard UserDefaults (more reliable than App Groups for extensions)
         let standardDefaults = UserDefaults.standard
-        let userDefaults = appGroupDefaults ?? standardDefaults
         
-        NSLog("🔍 Checking UserDefaults: App Group exists: \(appGroupDefaults != nil)")
+        NSLog("🔍 Checking standard UserDefaults for saved app selection")
         
-        // Check for saved data in both places
-        var savedData: Data? = nil
-        if let appGroupData = appGroupDefaults?.data(forKey: "selectedApps") {
-            savedData = appGroupData
-            NSLog("✅ Found data in App Group UserDefaults")
-        } else if let standardData = standardDefaults.data(forKey: "selectedApps") {
-            savedData = standardData
+        // Check for saved data
+        var savedData: Data? = standardDefaults.data(forKey: "selectedApps")
+        
+        // Fallback to App Group if available (but don't rely on it)
+        if savedData == nil {
+            if let appGroupDefaults = UserDefaults(suiteName: "group.com.mjhventures.dailybread"),
+               let appGroupData = appGroupDefaults.data(forKey: "selectedApps") {
+                savedData = appGroupData
+                NSLog("✅ Found data in App Group UserDefaults (fallback)")
+            }
+        } else {
             NSLog("✅ Found data in standard UserDefaults")
         }
         
@@ -49,22 +57,38 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
             do {
                 let tokens = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
                 let appTokens = tokens.applicationTokens
-                NSLog("✅ Decoded \(appTokens.count) application tokens")
-                print("✅ Decoded \(appTokens.count) application tokens")
+                let categoryTokens = tokens.categoryTokens
                 
-                // Apply shields - iOS will show the system shield screen
-                // Note: iOS doesn't allow full custom shield UI, just the system "Restricted" screen
-                store.shield.applications = appTokens
+                NSLog("✅ Decoded selection - Apps: \(appTokens.count), Categories: \(categoryTokens.count)")
+                print("✅ Decoded selection - Apps: \(appTokens.count), Categories: \(categoryTokens.count)")
                 
-                NSLog("✅ Shield applied to \(appTokens.count) apps at scheduled time")
-                print("✅ Shield applied to \(appTokens.count) apps at scheduled time")
-                print("🔒 Apps are now blocked - waiting for user to read Bible verse")
+                // Apply shields for individual apps
+                if !appTokens.isEmpty {
+                    store.shield.applications = appTokens
+                    NSLog("✅ Shield applied to \(appTokens.count) individual apps")
+                    print("✅ Shield applied to \(appTokens.count) individual apps")
+                }
                 
-                // Double-check that shields are actually set
-                if store.shield.applications?.isEmpty == false {
-                    NSLog("✅ Verified: Shields are active with \(appTokens.count) apps")
+                // IMPORTANT: Apply shields for categories (blocks all apps in category)
+                if !categoryTokens.isEmpty {
+                    store.shield.applicationCategories = .specific(categoryTokens)
+                    NSLog("✅ Shield applied to \(categoryTokens.count) categories (blocks all apps in those categories)")
+                    print("✅ Shield applied to \(categoryTokens.count) categories")
+                    print("   Note: All apps within selected categories will be blocked")
+                }
+                
+                // Verify shields are set
+                let totalBlocking = appTokens.count + categoryTokens.count
+                if totalBlocking > 0 {
+                    NSLog("✅ Verified: Shields are active - \(appTokens.count) apps + \(categoryTokens.count) categories")
+                    print("🔒 Apps are now blocked - waiting for user to read Bible verse")
+                    
+                    if appTokens.isEmpty && !categoryTokens.isEmpty {
+                        print("ℹ️ Using category-based blocking (no individual apps)")
+                    }
                 } else {
-                    NSLog("❌ WARNING: Shields were set but appear to be empty")
+                    NSLog("❌ WARNING: Both app and category tokens are empty - shields not applied")
+                    print("❌ WARNING: No blocking applied - selection was empty")
                 }
             } catch {
                 NSLog("❌ Failed to decode FamilyActivitySelection: \(error)")
@@ -72,9 +96,11 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
             }
         } else {
             NSLog("❌ No saved app selection data found in UserDefaults")
-            NSLog("❌ App Group UserDefaults: \(appGroupDefaults != nil ? "exists" : "does not exist")")
+            NSLog("❌ Current time: \(Date())")
+            NSLog("❌ Activity: \(activity)")
             print("❌ No saved app selection data found in UserDefaults")
             print("❌ This means apps were never selected or data wasn't saved properly")
+            print("❌ Schedule will NOT block any apps - user needs to select apps first")
         }
     }
     

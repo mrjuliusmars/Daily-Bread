@@ -9,7 +9,7 @@ struct OnboardingCarouselView: View {
     
     private let pages: [OnboardingPage] = [
         OnboardingPage(
-            title: "Social media addiction is taking you away from",
+            title: "Social media is taking you away from",
             highlightedText: "God.",
             backgroundGradient: [
                 Color(red: 0.05, green: 0.05, blue: 0.08),   // Deep charcoal top
@@ -18,8 +18,8 @@ struct OnboardingCarouselView: View {
             ]
         ),
         OnboardingPage(
-            title: "Daily Bread will help you get back on your",
-            highlightedText: "spiritual journey!",
+            title: "Daily Bread blocks your distracting apps",
+            highlightedText: "automatically every day.",
             backgroundGradient: [
                 Color(red: 0.05, green: 0.05, blue: 0.08),   // Deep charcoal top
                 Color(red: 0.02, green: 0.02, blue: 0.05),   // Near black
@@ -27,8 +27,8 @@ struct OnboardingCarouselView: View {
             ]
         ),
         OnboardingPage(
-            title: "It's simple.\nOnce a day,\nyou read a Bible verse\nto unlock your\napps.",
-            highlightedText: "",
+            title: "Read a personalized Bible verse",
+            highlightedText: "to unlock them.",
             backgroundGradient: [
                 Color(red: 0.05, green: 0.05, blue: 0.08),   // Deep charcoal top
                 Color(red: 0.02, green: 0.02, blue: 0.05),   // Near black
@@ -36,8 +36,8 @@ struct OnboardingCarouselView: View {
             ]
         ),
         OnboardingPage(
-            title: "This way you're putting God before social media",
-            highlightedText: "every day.",
+            title: "Put God before social media",
+            highlightedText: "every single day.",
             backgroundGradient: [
                 Color(red: 0.05, green: 0.05, blue: 0.08),   // Deep charcoal top
                 Color(red: 0.02, green: 0.02, blue: 0.05),   // Near black

@@ -27,12 +27,12 @@ struct ShieldActionView: View {
                 Spacer()
                 
                 // Daily Bread Logo
-                if let logoImage = UIImage(named: "DailyBread_Transparent") {
+                if let logoImage = UIImage(named: "Iconpng") {
                     Image(uiImage: logoImage)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 140, height: 140)
-                        .shadow(color: Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.5), radius: 30, x: 0, y: 0)
+                        .shadow(color: Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.5), radius: 30, x: 0, y: 0)
                 } else {
                     Text("🙏")
                         .font(.system(size: 100))
@@ -41,7 +41,7 @@ struct ShieldActionView: View {
                 // Main heading
                 Text("Your Daily Bread Awaits")
                     .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255)) // Gold
+                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945)) // Gold
                     .multilineTextAlignment(.center)
                     .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
                 
@@ -56,7 +56,7 @@ struct ShieldActionView: View {
                     
                     Text("Put God before social media.")
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.9)) // Gold
+                        .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.9)) // Gold
                 }
                 
                 Spacer()
@@ -77,7 +77,7 @@ struct ShieldActionView: View {
                     .background(
                         LinearGradient(
                             colors: [
-                                Color(red: 255/255, green: 215/255, blue: 0/255),
+                                Color(red: 1.0, green: 0.976, blue: 0.945),
                                 Color(red: 255/255, green: 235/255, blue: 0/255)
                             ],
                             startPoint: .leading,
@@ -85,7 +85,7 @@ struct ShieldActionView: View {
                         )
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 30))
-                    .shadow(color: Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.4), radius: 12, x: 0, y: 6)
+                    .shadow(color: Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.4), radius: 12, x: 0, y: 6)
                 }
                 .padding(.horizontal, 40)
                 .padding(.bottom, 60)

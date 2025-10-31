@@ -64,12 +64,12 @@ struct PlanReadyView: View {
                     Spacer()
                     
                     // Logo animation
-                    if let logoImage = UIImage(named: "DailyBread_Transparent") {
+                    if let logoImage = UIImage(named: "Iconpng") {
                         Image(uiImage: logoImage)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 140, height: 140)
-                            .shadow(color: Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.5), radius: 30, x: 0, y: 0)
+                            .shadow(color: Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.5), radius: 30, x: 0, y: 0)
                             .scaleEffect(logoScale)
                             .animation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.3), value: logoScale)
                     }
@@ -150,17 +150,10 @@ struct PlanReadyView: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: 60)
                         .background(
-                            LinearGradient(
-                                colors: [
-                                    Color(red: 255/255, green: 215/255, blue: 0/255),
-                                    Color(red: 255/255, green: 235/255, blue: 0/255)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+                            Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.85)
                         )
                         .clipShape(Capsule())
-                        .shadow(color: Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.5), radius: 25, x: 0, y: 10)
+                        .shadow(color: Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.5), radius: 25, x: 0, y: 10)
                         .overlay(
                             Capsule()
                                 .stroke(
@@ -227,8 +220,8 @@ struct PlanReadyFeatureRow: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.2),
-                                Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.1)
+                                Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.2),
+                                Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.1)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -237,13 +230,13 @@ struct PlanReadyFeatureRow: View {
                     .frame(width: 50, height: 50)
                     .overlay(
                         Circle()
-                            .stroke(Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.4), lineWidth: 1.5)
+                            .stroke(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.4), lineWidth: 1.5)
                     )
-                    .shadow(color: Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.3), radius: 10, x: 0, y: 5)
+                    .shadow(color: Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.3), radius: 10, x: 0, y: 5)
                 
                 Image(systemName: icon)
                     .font(.system(size: 22, weight: .semibold))
-                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255))
+                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
             }
             
             // Content

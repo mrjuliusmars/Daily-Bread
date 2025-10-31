@@ -68,7 +68,7 @@ struct CreatingPlanView: View {
                             .fill(
                                 LinearGradient(
                                     colors: [
-                                        Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.2),
+                                        Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.2),
                                         Color.clear
                                     ],
                                     startPoint: .topLeading,
@@ -83,7 +83,7 @@ struct CreatingPlanView: View {
                         // Pulsing circle
                         Circle()
                             .stroke(
-                                Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.3),
+                                Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.3),
                                 lineWidth: 2
                             )
                             .frame(width: 120, height: 120)
@@ -92,7 +92,7 @@ struct CreatingPlanView: View {
                         
                         // Daily Bread logo
                         Group {
-                            if let logoImage = UIImage(named: "DailyBread_Transparent") {
+                            if let logoImage = UIImage(named: "Iconpng") {
                                 Image(uiImage: logoImage)
                                     .resizable()
                                     .scaledToFit()
@@ -122,7 +122,7 @@ struct CreatingPlanView: View {
                         HStack(spacing: 8) {
                             ForEach(0..<3, id: \.self) { index in
                                 Circle()
-                                    .fill(Color(red: 255/255, green: 215/255, blue: 0/255))
+                                    .fill(Color(red: 1.0, green: 0.976, blue: 0.945))
                                     .frame(width: 8, height: 8)
                                     .offset(y: dotsOffset * (index % 2 == 0 ? 1 : -1))
                                     .opacity(0.6 + Double(index) * 0.2)
@@ -149,8 +149,8 @@ struct CreatingPlanView: View {
                                 .fill(
                                     LinearGradient(
                                         colors: [
-                                            Color(red: 255/255, green: 215/255, blue: 0/255),
-                                            Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.7)
+                                            Color(red: 1.0, green: 0.976, blue: 0.945),
+                                            Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.7)
                                         ],
                                         startPoint: .leading,
                                         endPoint: .trailing

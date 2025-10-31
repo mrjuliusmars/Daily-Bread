@@ -50,7 +50,7 @@ struct ContentView: View {
                                 
                                 Image(systemName: "book.closed.fill")
                                     .font(.system(size: 20, weight: .semibold))
-                                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255))
+                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -70,7 +70,7 @@ struct ContentView: View {
                                 
                                 Image(systemName: "gearshape.fill")
                                     .font(.system(size: 18, weight: .medium))
-                                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255))
+                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
@@ -92,7 +92,7 @@ struct ContentView: View {
                             ForEach(0..<3) { index in
                                 Image(systemName: "sparkle")
                                     .font(.system(size: 20))
-                                    .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255))
+                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                                     .offset(
                                         x: CGFloat(index - 1) * 50,
                                         y: index == 0 ? -30 : 30
@@ -117,7 +117,7 @@ struct ContentView: View {
                             Text(isBlocked ? "Unblock Apps (Test)" : "Test Block Apps Now")
                                 .font(.system(size: 16, weight: .semibold))
                         }
-                        .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255))
+                        .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(
@@ -125,7 +125,7 @@ struct ContentView: View {
                                 .fill(Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0.8))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .stroke(Color(red: 255/255, green: 215/255, blue: 0/255), lineWidth: 1)
+                                        .stroke(Color(red: 1.0, green: 0.976, blue: 0.945), lineWidth: 1)
                                 )
                         )
                         .padding(.horizontal, 20)

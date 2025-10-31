@@ -17,22 +17,22 @@ class ShieldConfigurationExtension: ShieldConfigurationDataSource {
     // Helper method to create the custom shield configuration
     private func createDailyBreadShield() -> ShieldConfiguration {
         return ShieldConfiguration(
-            backgroundBlurStyle: .systemMaterialDark,
-            backgroundColor: UIColor(red: 0.15, green: 0.3, blue: 0.55, alpha: 0.9),
-            icon: UIImage(named: "DailyBread_Transparent") ?? UIImage(systemName: "book.closed.fill")!,
+            backgroundBlurStyle: .systemUltraThinMaterialDark,
+            backgroundColor: UIColor(red: 0.15, green: 0.3, blue: 0.55, alpha: 1.0), // Matches app's royal blue gradient (top blue)
+            icon: UIImage(named: "Iconpng") ?? UIImage(systemName: "book.closed.fill")!,
             title: ShieldConfiguration.Label(
                 text: "Your Daily Bread Awaits",
-                color: UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 1.0) // Gold
+                color: UIColor(red: 1.0, green: 0.976, blue: 0.945, alpha: 1.0) // Gold
             ),
             subtitle: ShieldConfiguration.Label(
-                text: "Read a Bible verse to unlock your apps for today.\nPut God before social media.",
+                text: "Read a Bible verse to unlock your apps for today.\n\nPut God before social media.",
                 color: UIColor(red: 1.0, green: 0.976, blue: 0.945, alpha: 1.0) // Ivory White
             ),
             primaryButtonLabel: ShieldConfiguration.Label(
                 text: "Continue to Daily Bread",
                 color: .black
             ),
-            primaryButtonBackgroundColor: UIColor(red: 255/255, green: 215/255, blue: 0/255, alpha: 1.0), // Gold
+            primaryButtonBackgroundColor: UIColor(red: 1.0, green: 0.976, blue: 0.945, alpha: 1.0), // Gold
             secondaryButtonLabel: nil
         )
     }

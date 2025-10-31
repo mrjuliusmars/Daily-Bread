@@ -10,8 +10,6 @@
 		225C00842EB1579100448CAC /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225CFFA82EAFF21F00448CAC /* ManagedSettings.framework */; };
 		225C00862EB1579100448CAC /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225C00852EB1579100448CAC /* ManagedSettingsUI.framework */; };
 		225C008E2EB1579100448CAC /* Daily Bread Shield Configuration.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 225C00832EB1579100448CAC /* Daily Bread Shield Configuration.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		225CFFA92EAFF21F00448CAC /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225CFFA82EAFF21F00448CAC /* ManagedSettings.framework */; };
-		225CFFB12EAFF21F00448CAC /* Daily Bread Shield.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 225CFFA62EAFF21F00448CAC /* Daily Bread Shield.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		225CFFBD2EAFF8DF00448CAC /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225CFFBC2EAFF8DF00448CAC /* DeviceActivity.framework */; };
 		225CFFC52EAFF8DF00448CAC /* Daily Bread Monitor.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 225CFFBB2EAFF8DF00448CAC /* Daily Bread Monitor.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
@@ -38,13 +36,6 @@
 			remoteGlobalIDString = 225CFF292EAA6CCA00448CAC;
 			remoteInfo = "Daily Bread";
 		};
-		225CFFAF2EAFF21F00448CAC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 225CFF222EAA6CCA00448CAC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 225CFFA52EAFF21F00448CAC;
-			remoteInfo = "Daily Bread Shield";
-		};
 		225CFFC32EAFF8DF00448CAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 225CFF222EAA6CCA00448CAC /* Project object */;
@@ -63,7 +54,6 @@
 			files = (
 				225C008E2EB1579100448CAC /* Daily Bread Shield Configuration.appex in Embed Foundation Extensions */,
 				225CFFC52EAFF8DF00448CAC /* Daily Bread Monitor.appex in Embed Foundation Extensions */,
-				225CFFB12EAFF21F00448CAC /* Daily Bread Shield.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -76,7 +66,6 @@
 		225CFF2A2EAA6CCA00448CAC /* Daily Bread.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Daily Bread.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225CFF372EAA6CCD00448CAC /* Daily BreadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Daily BreadTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225CFF412EAA6CCD00448CAC /* Daily BreadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Daily BreadUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		225CFFA62EAFF21F00448CAC /* Daily Bread Shield.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Daily Bread Shield.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225CFFA82EAFF21F00448CAC /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
 		225CFFBB2EAFF8DF00448CAC /* Daily Bread Monitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Daily Bread Monitor.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225CFFBC2EAFF8DF00448CAC /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
@@ -103,13 +92,6 @@
 				HowItWorksView.swift,
 			);
 			target = 225CFF362EAA6CCD00448CAC /* Daily BreadTests */;
-		};
-		225CFFB52EAFF21F00448CAC /* Exceptions for "Daily Bread Shield" folder in "Daily Bread Shield" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 225CFFA52EAFF21F00448CAC /* Daily Bread Shield */;
 		};
 		225CFFC92EAFF8DF00448CAC /* Exceptions for "Daily Bread Monitor" folder in "Daily Bread Monitor" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -150,9 +132,6 @@
 		};
 		225CFFAA2EAFF21F00448CAC /* Daily Bread Shield */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				225CFFB52EAFF21F00448CAC /* Exceptions for "Daily Bread Shield" folder in "Daily Bread Shield" target */,
-			);
 			path = "Daily Bread Shield";
 			sourceTree = "<group>";
 		};
@@ -197,14 +176,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		225CFFA32EAFF21F00448CAC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				225CFFA92EAFF21F00448CAC /* ManagedSettings.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		225CFFB82EAFF8DF00448CAC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -236,7 +207,6 @@
 				225CFF2A2EAA6CCA00448CAC /* Daily Bread.app */,
 				225CFF372EAA6CCD00448CAC /* Daily BreadTests.xctest */,
 				225CFF412EAA6CCD00448CAC /* Daily BreadUITests.xctest */,
-				225CFFA62EAFF21F00448CAC /* Daily Bread Shield.appex */,
 				225CFFBB2EAFF8DF00448CAC /* Daily Bread Monitor.appex */,
 				225C00832EB1579100448CAC /* Daily Bread Shield Configuration.appex */,
 			);
@@ -290,7 +260,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				225CFFB02EAFF21F00448CAC /* PBXTargetDependency */,
 				225CFFC42EAFF8DF00448CAC /* PBXTargetDependency */,
 				225C008D2EB1579100448CAC /* PBXTargetDependency */,
 			);
@@ -350,28 +319,6 @@
 			productReference = 225CFF412EAA6CCD00448CAC /* Daily BreadUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		225CFFA52EAFF21F00448CAC /* Daily Bread Shield */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 225CFFB22EAFF21F00448CAC /* Build configuration list for PBXNativeTarget "Daily Bread Shield" */;
-			buildPhases = (
-				225CFFA22EAFF21F00448CAC /* Sources */,
-				225CFFA32EAFF21F00448CAC /* Frameworks */,
-				225CFFA42EAFF21F00448CAC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				225CFFAA2EAFF21F00448CAC /* Daily Bread Shield */,
-			);
-			name = "Daily Bread Shield";
-			packageProductDependencies = (
-			);
-			productName = "Daily Bread Shield";
-			productReference = 225CFFA62EAFF21F00448CAC /* Daily Bread Shield.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 		225CFFBA2EAFF8DF00448CAC /* Daily Bread Monitor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 225CFFC62EAFF8DF00448CAC /* Build configuration list for PBXNativeTarget "Daily Bread Monitor" */;
@@ -418,9 +365,6 @@
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = 225CFF292EAA6CCA00448CAC;
 					};
-					225CFFA52EAFF21F00448CAC = {
-						CreatedOnToolsVersion = 16.4;
-					};
 					225CFFBA2EAFF8DF00448CAC = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -443,7 +387,6 @@
 				225CFF292EAA6CCA00448CAC /* Daily Bread */,
 				225CFF362EAA6CCD00448CAC /* Daily BreadTests */,
 				225CFF402EAA6CCD00448CAC /* Daily BreadUITests */,
-				225CFFA52EAFF21F00448CAC /* Daily Bread Shield */,
 				225CFFBA2EAFF8DF00448CAC /* Daily Bread Monitor */,
 				225C00822EB1579100448CAC /* Daily Bread Shield Configuration */,
 			);
@@ -473,13 +416,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		225CFF3F2EAA6CCD00448CAC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		225CFFA42EAFF21F00448CAC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -524,13 +460,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		225CFFA22EAFF21F00448CAC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		225CFFB72EAFF8DF00448CAC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -555,11 +484,6 @@
 			isa = PBXTargetDependency;
 			target = 225CFF292EAA6CCA00448CAC /* Daily Bread */;
 			targetProxy = 225CFF422EAA6CCD00448CAC /* PBXContainerItemProxy */;
-		};
-		225CFFB02EAFF21F00448CAC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 225CFFA52EAFF21F00448CAC /* Daily Bread Shield */;
-			targetProxy = 225CFFAF2EAFF21F00448CAC /* PBXContainerItemProxy */;
 		};
 		225CFFC42EAFF8DF00448CAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -888,58 +812,6 @@
 			};
 			name = Release;
 		};
-		225CFFB32EAFF21F00448CAC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Daily Bread Shield/Daily_Bread_Shield.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W9T8XRTHNS;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Daily Bread Shield/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread Shield";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mjhventures.dailybread.Daily-Bread-Shield";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		225CFFB42EAFF21F00448CAC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = "Daily Bread Shield/Daily_Bread_Shield.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = W9T8XRTHNS;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Daily Bread Shield/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread Shield";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mjhventures.dailybread.Daily-Bread-Shield";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 		225CFFC72EAFF8DF00448CAC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1036,15 +908,6 @@
 			buildConfigurations = (
 				225CFF522EAA6CCD00448CAC /* Debug */,
 				225CFF532EAA6CCD00448CAC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		225CFFB22EAFF21F00448CAC /* Build configuration list for PBXNativeTarget "Daily Bread Shield" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				225CFFB32EAFF21F00448CAC /* Debug */,
-				225CFFB42EAFF21F00448CAC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
