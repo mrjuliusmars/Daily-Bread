@@ -27,7 +27,7 @@ struct ShieldActionView: View {
                 Spacer()
                 
                 // Daily Bread Logo
-                if let logoImage = UIImage(named: "Iconpng") {
+                if let logoImage = UIImage(named: "pngicon") {
                     Image(uiImage: logoImage)
                         .resizable()
                         .scaledToFit()

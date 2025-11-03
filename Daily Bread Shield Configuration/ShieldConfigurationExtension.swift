@@ -19,7 +19,7 @@ class ShieldConfigurationExtension: ShieldConfigurationDataSource {
         return ShieldConfiguration(
             backgroundBlurStyle: .systemUltraThinMaterialDark,
             backgroundColor: UIColor(red: 0.15, green: 0.3, blue: 0.55, alpha: 1.0), // Matches app's royal blue gradient (top blue)
-            icon: UIImage(named: "Iconpng") ?? UIImage(systemName: "book.closed.fill")!,
+            icon: UIImage(named: "pngicon") ?? UIImage(systemName: "book.closed.fill")!,
             title: ShieldConfiguration.Label(
                 text: "Your Daily Bread Awaits",
                 color: UIColor(red: 1.0, green: 0.976, blue: 0.945, alpha: 1.0) // Gold

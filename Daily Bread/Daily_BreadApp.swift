@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import SuperwallKit
 
 @main
 struct Daily_BreadApp: App {
     @StateObject private var onboardingState = OnboardingState()
     @State private var hasCompletedOnboarding = false
     @State private var showSplash = true
+    
+    init() {
+        // Configure Superwall
+        Superwall.configure(apiKey: "pk_C8cldqMI26f1HGQ9ZWkiA")
+    }
     
     var body: some Scene {
         WindowGroup {

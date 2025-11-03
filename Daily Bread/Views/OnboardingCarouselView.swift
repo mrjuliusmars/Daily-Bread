@@ -49,12 +49,12 @@ struct OnboardingCarouselView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Premium animated gradient background (Royal Blue)
+                // Premium animated gradient background (Dark Mode Grey)
                 LinearGradient(
                     colors: [
-                        Color(red: 0.15, green: 0.3, blue: 0.55),  // Royal blue top
-                        Color(red: 0.1, green: 0.2, blue: 0.45),   // Deeper royal blue
-                        Color(red: 0.05, green: 0.1, blue: 0.35)   // Dark royal blue bottom
+                        Color(red: 0.15, green: 0.15, blue: 0.18),  // Dark grey top
+                        Color(red: 0.12, green: 0.12, blue: 0.15),   // Darker grey middle
+                        Color(red: 0.08, green: 0.08, blue: 0.1)    // Darkest grey bottom
                     ],
                     startPoint: UnitPoint(x: 0.5 + gradientOffset * 0.1, y: 0),
                     endPoint: UnitPoint(x: 0.5 - gradientOffset * 0.1, y: 1)
@@ -62,11 +62,12 @@ struct OnboardingCarouselView: View {
                 .ignoresSafeArea()
                 .animation(.easeInOut(duration: 6).repeatForever(autoreverses: true), value: gradientOffset)
                 
-                // Additional depth layer with gold accent
+                // Additional depth layer with royal blue accent (exact same hue, lighter)
                 RadialGradient(
                     colors: [
-                        Color(red: 255/255, green: 215/255, blue: 0/255).opacity(0.15), // Gold glow
-                        Color.black
+                        Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.4), // Lighter tint of royal blue (maintains 1:2:3.4 ratio)
+                        Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.25), // Exact royal blue
+                        Color.clear
                     ],
                     center: UnitPoint(x: 0.7 + gradientOffset * 0.05, y: 0.3),
                     startRadius: 50,
@@ -76,13 +77,14 @@ struct OnboardingCarouselView: View {
                 .blendMode(.screen)
                 .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: gradientOffset)
                 
-                // Enhanced animated particles (gold/cream) - stable position per page
+                // Enhanced animated particles (royal blue - exact hue) - stable position per page
                 ForEach(0..<15, id: \.self) { index in
                     Circle()
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color(red: 255/255, green: 250/255, blue: 205/255).opacity(0.2), // Cream/ivory
+                                    Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.35), // Lighter tint of royal blue
+                                    Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2), // Exact royal blue
                                     Color.clear
                                 ],
                                 startPoint: .top,
@@ -148,9 +150,9 @@ struct OnboardingCarouselView: View {
                                     .font(.system(size: 18, weight: .semibold))
                                     .foregroundColor(.white)
                                     .frame(width: 56, height: 56)
-                                    .background(Color.white.opacity(0.15))
+                                    .background(Color(red: 0.15, green: 0.3, blue: 0.55)) // Royal blue
                                     .clipShape(Capsule())
-                                    .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                                    .shadow(color: Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.5), radius: 8, x: 0, y: 4)
                             } else {
                                 HStack(spacing: 8) {
                                     Text("Start Quiz")
@@ -162,9 +164,9 @@ struct OnboardingCarouselView: View {
                                 }
                                 .padding(.horizontal, 20)
                                 .padding(.vertical, 14)
-                                .background(Color.white.opacity(0.15))
+                                .background(Color(red: 0.15, green: 0.3, blue: 0.55)) // Royal blue
                                 .clipShape(Capsule())
-                                .shadow(color: .black.opacity(0.3), radius: 8, x: 0, y: 4)
+                                .shadow(color: Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.5), radius: 8, x: 0, y: 4)
                             }
                         }
                     }
@@ -205,13 +207,13 @@ struct OnboardingPageView: View {
                         // Custom formatting for simple page
                         Text("It's ") +
                         Text("simple.")
-                            .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255)) + // Pure Gold #FFD700
+                            .foregroundColor(Color(red: 0.3, green: 0.6, blue: 0.95)) + // Lighter tint of royal blue (maintains exact 1:2:3.17 ratio)
                         Text("\nOnce a day,\nyou read a Bible verse\nto unlock your\napps.")
                     } else {
                         // Standard formatting for other pages
                         Text(page.title + " ") +
                         Text(page.highlightedText)
-                            .foregroundColor(Color(red: 255/255, green: 215/255, blue: 0/255)) // Pure Gold #FFD700
+                            .foregroundColor(Color(red: 0.3, green: 0.6, blue: 0.95)) // Lighter tint of royal blue (maintains exact 1:2:3.17 ratio)
                     }
                 }
                 .font(.system(size: 42, weight: .regular, design: .serif))

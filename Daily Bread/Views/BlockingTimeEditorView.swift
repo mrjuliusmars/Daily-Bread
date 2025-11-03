@@ -34,12 +34,12 @@ struct BlockingTimeEditorView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Royal blue gradient background
+                // Dark mode grey gradient background
                 LinearGradient(
                     colors: [
-                        Color(red: 0.15, green: 0.3, blue: 0.55),
-                        Color(red: 0.1, green: 0.2, blue: 0.45),
-                        Color(red: 0.05, green: 0.1, blue: 0.35)
+                        Color(red: 0.15, green: 0.15, blue: 0.18),  // Dark grey top
+                        Color(red: 0.12, green: 0.12, blue: 0.15),   // Darker grey middle
+                        Color(red: 0.08, green: 0.08, blue: 0.1)    // Darkest grey bottom
                     ],
                     startPoint: .top,
                     endPoint: .bottom

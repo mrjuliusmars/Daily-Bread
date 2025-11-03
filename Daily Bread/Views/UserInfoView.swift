@@ -9,6 +9,7 @@ struct UserInfoView: View {
     @State private var keyboardHeight: CGFloat = 0
     @State private var hasInteractedWithName = false
     @State private var hasInteractedWithAge = false
+    @State private var gradientOffset: Double = 0
     
     private enum Field {
         case name, age
@@ -38,32 +39,59 @@ struct UserInfoView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Royal blue gradient background
+                // Premium animated gradient background (Dark Mode Grey)
                 LinearGradient(
                     colors: [
-                        Color(red: 0.15, green: 0.3, blue: 0.55),  // Royal blue top
-                        Color(red: 0.1, green: 0.2, blue: 0.45),   // Deeper royal blue
-                        Color(red: 0.05, green: 0.1, blue: 0.35)   // Dark royal blue bottom
+                        Color(red: 0.15, green: 0.15, blue: 0.18),  // Dark grey top
+                        Color(red: 0.12, green: 0.12, blue: 0.15),   // Darker grey middle
+                        Color(red: 0.08, green: 0.08, blue: 0.1)    // Darkest grey bottom
                     ],
-                    startPoint: .top,
-                    endPoint: .bottom
+                    startPoint: UnitPoint(x: 0.5 + gradientOffset * 0.1, y: 0),
+                    endPoint: UnitPoint(x: 0.5 - gradientOffset * 0.1, y: 1)
                 )
                 .ignoresSafeArea()
+                .animation(.easeInOut(duration: 6).repeatForever(autoreverses: true), value: gradientOffset)
                 
-                // Subtle floating particles
-                ForEach(0..<8, id: \.self) { index in
+                // Additional depth layer with royal blue accent (exact same hue, lighter)
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.4), // Lighter tint of royal blue (maintains 1:2:3.4 ratio)
+                        Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.25), // Exact royal blue
+                        Color.clear
+                    ],
+                    center: UnitPoint(x: 0.7 + gradientOffset * 0.05, y: 0.3),
+                    startRadius: 50,
+                    endRadius: 500
+                )
+                .ignoresSafeArea()
+                .blendMode(.screen)
+                .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: gradientOffset)
+                
+                // Enhanced animated particles (royal blue - exact hue) - stable position per page
+                ForEach(0..<15, id: \.self) { index in
                     Circle()
-                        .fill(Color.white.opacity(0.02))
-                        .frame(width: CGFloat.random(in: 1...3))
-                        .position(
-                            x: CGFloat.random(in: 0...geometry.size.width),
-                            y: CGFloat.random(in: 0...geometry.size.height)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.35), // Lighter tint of royal blue
+                                    Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2), // Exact royal blue
+                                    Color.clear
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
                         )
-                        .opacity(isVisible ? 0.08 : 0.01)
+                        .frame(width: CGFloat.random(in: 40...80))
+                        .position(
+                            x: Double((index % 5) * Int(geometry.size.width / 4)),
+                            y: Double((index / 5) * Int(geometry.size.height / 4))
+                        )
+                        .opacity(0.6)
+                        .blur(radius: 20)
                         .animation(
-                            .easeInOut(duration: 8.0)
-                            .repeatForever(autoreverses: true),
-                            value: isVisible
+                            .easeInOut(duration: 8)
+                            .repeatForever(autoreverses: false),
+                            value: gradientOffset
                         )
                 }
                 
@@ -237,6 +265,7 @@ struct UserInfoView: View {
             }
         .navigationBarHidden(true)
         .onAppear {
+            gradientOffset = 0.3
             // Immediate, smooth fade-in - no jarring delays
             withAnimation(.easeOut(duration: 0.8)) {
                 isVisible = true

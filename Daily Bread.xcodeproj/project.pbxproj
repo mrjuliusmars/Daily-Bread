@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2215CEF52EB522D700E5DFF9 /* SuperwallKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2215CEF42EB522D700E5DFF9 /* SuperwallKit */; };
 		225C00842EB1579100448CAC /* ManagedSettings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225CFFA82EAFF21F00448CAC /* ManagedSettings.framework */; };
 		225C00862EB1579100448CAC /* ManagedSettingsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 225C00852EB1579100448CAC /* ManagedSettingsUI.framework */; };
 		225C008E2EB1579100448CAC /* Daily Bread Shield Configuration.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 225C00832EB1579100448CAC /* Daily Bread Shield Configuration.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -159,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2215CEF52EB522D700E5DFF9 /* SuperwallKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +270,7 @@
 			);
 			name = "Daily Bread";
 			packageProductDependencies = (
+				2215CEF42EB522D700E5DFF9 /* SuperwallKit */,
 			);
 			productName = "Daily Bread";
 			productReference = 225CFF2A2EAA6CCA00448CAC /* Daily Bread.app */;
@@ -379,6 +382,9 @@
 			);
 			mainGroup = 225CFF212EAA6CCA00448CAC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2215CEF32EB522D700E5DFF9 /* XCRemoteSwiftPackageReference "Superwall-iOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 225CFF2B2EAA6CCA00448CAC /* Products */;
 			projectDirPath = "";
@@ -922,6 +928,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2215CEF32EB522D700E5DFF9 /* XCRemoteSwiftPackageReference "Superwall-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/superwall/Superwall-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.9.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2215CEF42EB522D700E5DFF9 /* SuperwallKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2215CEF32EB522D700E5DFF9 /* XCRemoteSwiftPackageReference "Superwall-iOS" */;
+			productName = SuperwallKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 225CFF222EAA6CCA00448CAC /* Project object */;
 }

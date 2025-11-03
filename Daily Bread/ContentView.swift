@@ -17,21 +17,66 @@ struct ContentView: View {
     @State private var showTestAlert = false
     @State private var testAlertMessage = ""
     @State private var isBlocked = false
+    @State private var gradientOffset: Double = 0
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Royal blue gradient background
+                // Premium animated gradient background (Dark Mode Grey)
                 LinearGradient(
                     colors: [
-                        Color(red: 0.15, green: 0.3, blue: 0.55),  // Royal blue top
-                        Color(red: 0.1, green: 0.2, blue: 0.45),   // Deeper royal blue
-                        Color(red: 0.05, green: 0.1, blue: 0.35)   // Dark royal blue bottom
+                        Color(red: 0.15, green: 0.15, blue: 0.18),  // Dark grey top
+                        Color(red: 0.12, green: 0.12, blue: 0.15),   // Darker grey middle
+                        Color(red: 0.08, green: 0.08, blue: 0.1)    // Darkest grey bottom
                     ],
-                    startPoint: .top,
-                    endPoint: .bottom
+                    startPoint: UnitPoint(x: 0.5 + gradientOffset * 0.1, y: 0),
+                    endPoint: UnitPoint(x: 0.5 - gradientOffset * 0.1, y: 1)
                 )
                 .ignoresSafeArea()
+                .animation(.easeInOut(duration: 6).repeatForever(autoreverses: true), value: gradientOffset)
+                
+                // Additional depth layer with royal blue accent (exact same hue, lighter)
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.4), // Lighter tint of royal blue (maintains 1:2:3.4 ratio)
+                        Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.25), // Exact royal blue
+                        Color.clear
+                    ],
+                    center: UnitPoint(x: 0.7 + gradientOffset * 0.05, y: 0.3),
+                    startRadius: 50,
+                    endRadius: 500
+                )
+                .ignoresSafeArea()
+                .blendMode(.screen)
+                .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: gradientOffset)
+                
+                // Enhanced animated particles (royal blue - exact hue) - stable position per page
+                ForEach(0..<15, id: \.self) { index in
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.35), // Lighter tint of royal blue
+                                    Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2), // Exact royal blue
+                                    Color.clear
+                                ],
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .frame(width: CGFloat.random(in: 40...80))
+                        .position(
+                            x: Double((index % 5) * Int(geometry.size.width / 4)),
+                            y: Double((index / 5) * Int(geometry.size.height / 4))
+                        )
+                        .opacity(0.6)
+                        .blur(radius: 20)
+                        .animation(
+                            .easeInOut(duration: 8)
+                            .repeatForever(autoreverses: false),
+                            value: gradientOffset
+                        )
+                }
                 
                 VStack(spacing: 0) {
                     // Status bar area (top safe area)
@@ -41,20 +86,6 @@ struct ContentView: View {
                     
                     // Top navigation buttons
                     HStack {
-                        // Bible/Cross button (top left)
-                        Button(action: {}) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color(red: 0.05, green: 0.1, blue: 0.35))
-                                    .frame(width: 44, height: 44)
-                                
-                                Image(systemName: "book.closed.fill")
-                                    .font(.system(size: 20, weight: .semibold))
-                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
-                            }
-                        }
-                        .buttonStyle(PlainButtonStyle())
-                        
                         Spacer()
                         
                         // Settings button (top right)
@@ -65,7 +96,7 @@ struct ContentView: View {
                         }) {
                             ZStack {
                                 Circle()
-                                    .fill(Color(red: 0.05, green: 0.1, blue: 0.35))
+                                    .fill(Color(red: 0.15, green: 0.3, blue: 0.55)) // Royal blue
                                     .frame(width: 44, height: 44)
                                 
                                 Image(systemName: "gearshape.fill")
@@ -122,7 +153,7 @@ struct ContentView: View {
                         .padding(.vertical, 12)
                         .background(
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0.8))
+                                .fill(Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.8)) // Royal blue
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(Color(red: 1.0, green: 0.976, blue: 0.945), lineWidth: 1)
@@ -149,7 +180,7 @@ struct ContentView: View {
                         .padding(.vertical, 16)
                         .background(
                             RoundedRectangle(cornerRadius: 16)
-                                .fill(Color(red: 0.05, green: 0.1, blue: 0.35))
+                                .fill(Color(red: 0.15, green: 0.3, blue: 0.55)) // Royal blue
                         )
                         .padding(.horizontal, 20)
                     }
@@ -170,6 +201,9 @@ struct ContentView: View {
             Button("OK", role: .cancel) { }
         } message: {
             Text(testAlertMessage)
+        }
+        .onAppear {
+            gradientOffset = 0.3
         }
     }
     

@@ -9,6 +9,7 @@ struct QuizQuestionView: View {
     @State private var isVisible = false
     @State private var showContent = false
     @State private var showOptions = false
+    @State private var gradientOffset: Double = 0
     
     private var question: QuizQuestion {
         quizQuestions[questionNumber - 1]
@@ -27,38 +28,60 @@ struct QuizQuestionView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Royal blue gradient background to match carousel
+                // Premium animated gradient background (Dark Mode Grey)
                 LinearGradient(
                     colors: [
-                        Color(red: 0.15, green: 0.3, blue: 0.55),  // Royal blue top
-                        Color(red: 0.1, green: 0.2, blue: 0.45),   // Deeper royal blue
-                        Color(red: 0.05, green: 0.1, blue: 0.35)   // Dark royal blue bottom
+                        Color(red: 0.15, green: 0.15, blue: 0.18),  // Dark grey top
+                        Color(red: 0.12, green: 0.12, blue: 0.15),   // Darker grey middle
+                        Color(red: 0.08, green: 0.08, blue: 0.1)    // Darkest grey bottom
                     ],
-                    startPoint: .top,
-                    endPoint: .bottom
+                    startPoint: UnitPoint(x: 0.5 + gradientOffset * 0.1, y: 0),
+                    endPoint: UnitPoint(x: 0.5 - gradientOffset * 0.1, y: 1)
                 )
                 .ignoresSafeArea()
+                .animation(.easeInOut(duration: 6).repeatForever(autoreverses: true), value: gradientOffset)
                 
-                // Subtle floating particles (cream/ivory like carousel)
-                ForEach(0..<12, id: \.self) { index in
+                // Additional depth layer with royal blue accent (exact same hue, lighter)
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.4), // Lighter tint of royal blue (maintains 1:2:3.4 ratio)
+                        Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.25), // Exact royal blue
+                        Color.clear
+                    ],
+                    center: UnitPoint(x: 0.7 + gradientOffset * 0.05, y: 0.3),
+                    startRadius: 50,
+                    endRadius: 500
+                )
+                .ignoresSafeArea()
+                .blendMode(.screen)
+                .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: gradientOffset)
+                
+                // Enhanced animated particles (royal blue - exact hue) - stable position per page
+                ForEach(0..<15, id: \.self) { index in
                     Circle()
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color(red: 255/255, green: 250/255, blue: 205/255).opacity(0.15), // Cream/ivory
+                                    Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.35), // Lighter tint of royal blue
+                                    Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2), // Exact royal blue
                                     Color.clear
                                 ],
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
                         )
-                        .frame(width: CGFloat.random(in: 40...70))
+                        .frame(width: CGFloat.random(in: 40...80))
                         .position(
                             x: Double((index % 5) * Int(geometry.size.width / 4)),
                             y: Double((index / 5) * Int(geometry.size.height / 4))
                         )
-                        .opacity(0.5)
-                        .blur(radius: 15)
+                        .opacity(0.6)
+                        .blur(radius: 20)
+                        .animation(
+                            .easeInOut(duration: 8)
+                            .repeatForever(autoreverses: false),
+                            value: gradientOffset
+                        )
                 }
                 
                 VStack(spacing: 0) {
@@ -89,11 +112,11 @@ struct QuizQuestionView: View {
                             
                             Spacer()
                             
-                            if let logoImage = UIImage(named: "ivorylogo") {
+                            if let logoImage = UIImage(named: "pngicon") {
                                 Image(uiImage: logoImage)
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 150)
+                                    .frame(height: 80)
                                     .opacity(isVisible ? 1.0 : 0.0)
                                     .animation(.easeOut(duration: 0.5), value: isVisible)
                             } else {
@@ -111,7 +134,7 @@ struct QuizQuestionView: View {
                                 .frame(width: 42) // Match the left side spacing
                         }
                         .padding(.horizontal, 24)
-                        .padding(.top, -25)
+                        .padding(.top, 8)
                         
                         // Progress section
                         VStack(spacing: 4) {
@@ -145,6 +168,7 @@ struct QuizQuestionView: View {
                             .frame(height: 4)
                         }
                         .padding(.horizontal, 24)
+                        .padding(.top, 4)
                     }
                     .opacity(isVisible ? 1.0 : 0.0)
                     .animation(.easeOut(duration: 0.5).delay(0.1), value: isVisible)
@@ -153,19 +177,19 @@ struct QuizQuestionView: View {
                     if questionNumber == 4 || questionNumber == 5 || questionNumber == 7 || questionNumber == 8 {
                         VStack(spacing: 16) {
                             Text(question.question)
-                                .font(.system(size: 24, weight: .bold, design: .rounded))
+                                .font(.system(size: 20, weight: .bold, design: .rounded))
                                 .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                                 .multilineTextAlignment(.center)
-                                .lineLimit(4)
-                                .minimumScaleFactor(0.7)
-                                .lineSpacing(6)
+                                .lineLimit(2)
+                                .minimumScaleFactor(0.75)
+                                .lineSpacing(4)
                                 .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
                                 .opacity(showContent ? 1.0 : 0.0)
                                 .offset(y: showContent ? 0 : 20)
                                 .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showContent)
                                 .padding(.horizontal, 24)
-                                .padding(.top, 8)
-                                .padding(.bottom, 24)
+                                .padding(.top, 20)
+                                .padding(.bottom, 16)
                         }
                     }
                     
@@ -173,10 +197,10 @@ struct QuizQuestionView: View {
                     if questionNumber == 4 || questionNumber == 5 || questionNumber == 7 || questionNumber == 8 {
                         // Scrollable options only for questions 4 and 5 (title is fixed above)
                         ScrollView {
-                            VStack(spacing: 10) {
+                            VStack(spacing: 12) {
                                 // Extra spacing at top to separate from question
                                 Spacer()
-                                    .frame(height: 8)
+                                    .frame(height: 4)
                                 ForEach(Array(question.options.enumerated()), id: \.offset) { index, option in
                                     Button(action: {
                                         // Haptic feedback
@@ -211,14 +235,14 @@ struct QuizQuestionView: View {
                                                 Circle()
                                                     .fill(
                                                         selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                        Color(red: 1.0, green: 0.976, blue: 0.945) : Color.white.opacity(0.1) // Gold for selected
+                                                        Color(red: 0.15, green: 0.3, blue: 0.55) : Color.white.opacity(0.1) // Royal blue for selected
                                                     )
                                                     .frame(width: 32, height: 32)
                                                     .overlay(
                                                         Circle()
                                                             .stroke(
                                                                 selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                                Color(red: 1.0, green: 0.976, blue: 0.945) : Color.white.opacity(0.3), // Gold for selected
+                                                                Color(red: 0.15, green: 0.3, blue: 0.55) : Color.white.opacity(0.3), // Royal blue for selected
                                                                 lineWidth: 2
                                                             )
                                                     )
@@ -227,40 +251,42 @@ struct QuizQuestionView: View {
                                                     // Show checkmark for multi-select questions
                                                     Image(systemName: selectedOptions.contains(index) || currentAnswers.contains(index) ? "checkmark" : "")
                                                         .font(.system(size: 14, weight: .bold))
-                                                        .foregroundColor(.black)
+                                                        .foregroundColor(.white)
                                                 } else {
                                                     // Show number for single-select questions
                                                     Text("\(index + 1)")
                                                         .font(.system(size: 14, weight: .bold))
                                                         .foregroundColor(
                                                             selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                            .black : Color(red: 1.0, green: 0.976, blue: 0.945) // Ivory White #FFF9F1
+                                                            .white : Color(red: 1.0, green: 0.976, blue: 0.945) // White when selected, ivory white when not
                                                         )
                                                 }
                                             }
                                             
                                             // Option text
                                             Text(option)
-                                                .font(.system(size: 15, weight: .medium))
+                                                .font(.system(size: 16, weight: .medium))
                                                 .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945)) // Ivory White #FFF9F1
                                                 .multilineTextAlignment(.leading)
+                                                .lineLimit(nil)
+                                                .fixedSize(horizontal: false, vertical: true)
                                                 .frame(maxWidth: .infinity, alignment: .leading)
                                             
                                             Spacer()
                                         }
-                                        .padding(.horizontal, 18)
+                                        .padding(.horizontal, 20)
                                         .padding(.vertical, 14)
                                         .background(
                                             RoundedRectangle(cornerRadius: 12)
                                                 .fill(
                                                     selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                    Color.white.opacity(0.08) : Color.white.opacity(0.03)
+                                                    Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2) : Color.white.opacity(0.03)
                                                 )
                                                 .overlay(
                                                     RoundedRectangle(cornerRadius: 12)
                                                         .stroke(
                                                             selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                            Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.4) : Color.white.opacity(0.1), // Gold border for selected
+                                                            Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.6) : Color.white.opacity(0.1), // Royal blue border for selected
                                                             lineWidth: 1.5
                                                         )
                                                 )
@@ -279,85 +305,66 @@ struct QuizQuestionView: View {
                         }
                         .frame(maxWidth: .infinity, maxHeight: .infinity) // Make ScrollView fill available space
                     } else {
-                        // Scrollable content for questions 1-3 (question title + options together)
-                        ScrollView {
-                            VStack(spacing: 16) {
-                                // Question title
+                        // Compact layout for questions 2 and 10 (all 6 options visible without scrolling)
+                        if questionNumber == 2 || questionNumber == 10 {
+                            VStack(spacing: 12) {
+                                // Compact question title
                                 Text(question.question)
-                                    .font(.system(size: 24, weight: .bold, design: .rounded))
+                                    .font(.system(size: 20, weight: .bold, design: .rounded))
                                     .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                                     .multilineTextAlignment(.center)
-                                    .lineLimit(4)
-                                    .minimumScaleFactor(0.7)
-                                    .lineSpacing(6)
+                                    .lineLimit(2)
+                                    .minimumScaleFactor(0.75)
+                                    .lineSpacing(4)
                                     .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
                                     .opacity(showContent ? 1.0 : 0.0)
                                     .offset(y: showContent ? 0 : 20)
                                     .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showContent)
                                     .padding(.horizontal, 24)
-                                    .padding(.top, 8)
-                                    .padding(.bottom, 24)
+                                    .padding(.top, 20)
+                                    .padding(.bottom, 16)
                                 
-                                // Options
-                                VStack(spacing: 14) {
+                                // Compact options - no scrolling
+                                VStack(spacing: 12) {
                                     ForEach(Array(question.options.enumerated()), id: \.offset) { index, option in
                                         Button(action: {
                                             let impact = UIImpactFeedbackGenerator(style: .medium)
                                             impact.impactOccurred()
                                             
-                                            if question.allowsMultipleSelection {
-                                                // Toggle selection for multi-select questions
-                                                if selectedOptions.contains(index) {
-                                                    selectedOptions.remove(index)
+                                            selectedOptions = [index]
+                                            onboardingState.quizAnswers[questionNumber] = [index]
+                                            
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                                if questionNumber == quizQuestions.count {
+                                                    onboardingState.navigateTo(.userInfo)
                                                 } else {
-                                                    selectedOptions.insert(index)
-                                                }
-                                                onboardingState.quizAnswers[questionNumber] = Array(selectedOptions)
-                                            } else {
-                                                // Single selection for regular questions
-                                                selectedOptions = [index]
-                                                onboardingState.quizAnswers[questionNumber] = [index]
-                                                
-                                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                                                    if questionNumber == quizQuestions.count {
-                                                        onboardingState.navigateTo(.userInfo)
-                                                    } else {
-                                                        onboardingState.navigateTo(.quiz(questionNumber + 1))
-                                                    }
+                                                    onboardingState.navigateTo(.quiz(questionNumber + 1))
                                                 }
                                             }
                                         }) {
                                             HStack(spacing: 12) {
                                                 ZStack {
-                                                    Circle()
-                                                        .fill(
-                                                            selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                            Color(red: 1.0, green: 0.976, blue: 0.945) : Color.white.opacity(0.1)
-                                                        )
-                                                        .frame(width: 32, height: 32)
-                                                        .overlay(
-                                                            Circle()
-                                                                .stroke(
-                                                                    selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                                    Color(red: 1.0, green: 0.976, blue: 0.945) : Color.white.opacity(0.3),
-                                                                    lineWidth: 2
-                                                                )
-                                                        )
-                                                    
-                                                    if question.allowsMultipleSelection {
-                                                        // Show checkmark for multi-select questions
-                                                        Image(systemName: selectedOptions.contains(index) || currentAnswers.contains(index) ? "checkmark" : "")
-                                                            .font(.system(size: 14, weight: .bold))
-                                                            .foregroundColor(.black)
-                                                    } else {
-                                                        // Show number for single-select questions
+                                                        Circle()
+                                                            .fill(
+                                                                selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                                Color(red: 0.15, green: 0.3, blue: 0.55) : Color.white.opacity(0.1) // Royal blue for selected
+                                                            )
+                                                            .frame(width: 32, height: 32)
+                                                            .overlay(
+                                                                Circle()
+                                                                    .stroke(
+                                                                        selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                                        Color(red: 0.15, green: 0.3, blue: 0.55) : Color.white.opacity(0.3), // Royal blue for selected
+                                                                        lineWidth: 2
+                                                                    )
+                                                            )
+                                                        
                                                         Text("\(index + 1)")
                                                             .font(.system(size: 14, weight: .bold))
-                                                            .foregroundColor(
-                                                                selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                                .black : Color(red: 1.0, green: 0.976, blue: 0.945)
-                                                            )
-                                                    }
+                                                        .foregroundColor(
+                                                            selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                            .white : Color(red: 1.0, green: 0.976, blue: 0.945) // White when selected, ivory white when not
+                                                        )
                                                 }
                                                 
                                                 Text(option)
@@ -371,18 +378,18 @@ struct QuizQuestionView: View {
                                                 Spacer()
                                             }
                                             .padding(.horizontal, 20)
-                                            .padding(.vertical, 16)
+                                            .padding(.vertical, 14)
                                             .background(
                                                 RoundedRectangle(cornerRadius: 12)
                                                     .fill(
                                                         selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                        Color.white.opacity(0.08) : Color.white.opacity(0.03)
+                                                        Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2) : Color.white.opacity(0.03)
                                                     )
                                                     .overlay(
                                                         RoundedRectangle(cornerRadius: 12)
                                                             .stroke(
                                                                 selectedOptions.contains(index) || currentAnswers.contains(index) ?
-                                                                Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.4) : Color.white.opacity(0.1),
+                                                                Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.6) : Color.white.opacity(0.1), // Royal blue border for selected
                                                                 lineWidth: 1.5
                                                             )
                                                     )
@@ -396,21 +403,143 @@ struct QuizQuestionView: View {
                                     }
                                 }
                                 .padding(.horizontal, 24)
-                                .padding(.bottom, max(geometry.safeAreaInsets.bottom + 60, 80)) // Extra padding to ensure nothing is cut off, especially for Q10 with 6 options
+                                
+                                Spacer()
                             }
+                        } else {
+                            // Scrollable content for other questions (question title + options together)
+                            ScrollView {
+                                VStack(spacing: 16) {
+                                    // Question title
+                                    Text(question.question)
+                                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                                        .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
+                                        .multilineTextAlignment(.center)
+                                        .lineLimit(2)
+                                        .minimumScaleFactor(0.75)
+                                        .lineSpacing(4)
+                                        .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                                        .opacity(showContent ? 1.0 : 0.0)
+                                        .offset(y: showContent ? 0 : 20)
+                                        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showContent)
+                                        .padding(.horizontal, 24)
+                                        .padding(.top, 20)
+                                        .padding(.bottom, 16)
+                                    
+                                    // Options
+                                    VStack(spacing: 12) {
+                                        ForEach(Array(question.options.enumerated()), id: \.offset) { index, option in
+                                            Button(action: {
+                                                let impact = UIImpactFeedbackGenerator(style: .medium)
+                                                impact.impactOccurred()
+                                                
+                                                if question.allowsMultipleSelection {
+                                                    // Toggle selection for multi-select questions
+                                                    if selectedOptions.contains(index) {
+                                                        selectedOptions.remove(index)
+                                                    } else {
+                                                        selectedOptions.insert(index)
+                                                    }
+                                                    onboardingState.quizAnswers[questionNumber] = Array(selectedOptions)
+                                                } else {
+                                                    // Single selection for regular questions
+                                                    selectedOptions = [index]
+                                                    onboardingState.quizAnswers[questionNumber] = [index]
+                                                    
+                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                                                        if questionNumber == quizQuestions.count {
+                                                            onboardingState.navigateTo(.userInfo)
+                                                        } else {
+                                                            onboardingState.navigateTo(.quiz(questionNumber + 1))
+                                                        }
+                                                    }
+                                                }
+                                            }) {
+                                                HStack(spacing: 12) {
+                                                    ZStack {
+                                                        Circle()
+                                                            .fill(
+                                                                selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                                Color(red: 0.15, green: 0.3, blue: 0.55) : Color.white.opacity(0.1) // Royal blue for selected
+                                                            )
+                                                            .frame(width: 32, height: 32)
+                                                            .overlay(
+                                                                Circle()
+                                                                    .stroke(
+                                                                        selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                                        Color(red: 0.15, green: 0.3, blue: 0.55) : Color.white.opacity(0.3), // Royal blue for selected
+                                                                        lineWidth: 2
+                                                                    )
+                                                            )
+                                                        
+                                                        if question.allowsMultipleSelection {
+                                                            // Show checkmark for multi-select questions
+                                                            Image(systemName: selectedOptions.contains(index) || currentAnswers.contains(index) ? "checkmark" : "")
+                                                                .font(.system(size: 14, weight: .bold))
+                                                                .foregroundColor(.white)
+                                                        } else {
+                                                            // Show number for single-select questions
+                                                            Text("\(index + 1)")
+                                                                .font(.system(size: 14, weight: .bold))
+                                                                .foregroundColor(
+                                                                    selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                                    .white : Color(red: 1.0, green: 0.976, blue: 0.945) // White when selected, ivory white when not
+                                                                )
+                                                        }
+                                                    }
+                                                    
+                                                    Text(option)
+                                                        .font(.system(size: 16, weight: .medium))
+                                                        .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
+                                                        .multilineTextAlignment(.leading)
+                                                        .lineLimit(nil)
+                                                        .fixedSize(horizontal: false, vertical: true)
+                                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                                    
+                                                    Spacer()
+                                                }
+                                                .padding(.horizontal, 20)
+                                                .padding(.vertical, 16)
+                                                .background(
+                                                    RoundedRectangle(cornerRadius: 12)
+                                                        .fill(
+                                                            selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                            Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2) : Color.white.opacity(0.03)
+                                                        )
+                                                        .overlay(
+                                                            RoundedRectangle(cornerRadius: 12)
+                                                                .stroke(
+                                                                    selectedOptions.contains(index) || currentAnswers.contains(index) ?
+                                                                    Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.6) : Color.white.opacity(0.1), // Royal blue border for selected
+                                                                    lineWidth: 1.5
+                                                                )
+                                                        )
+                                                )
+                                            }
+                                            .scaleEffect(selectedOptions.contains(index) || currentAnswers.contains(index) ? 1.02 : 1.0)
+                                            .opacity(showOptions ? 1.0 : 0.0)
+                                            .offset(y: showOptions ? 0 : 20)
+                                            .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(Double(index) * 0.08), value: showOptions)
+                                            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: selectedOptions)
+                                        }
+                                    }
+                                    .padding(.horizontal, 24)
+                                    .padding(.bottom, max(geometry.safeAreaInsets.bottom + 60, 80)) // Extra padding to ensure nothing is cut off
+                                }
+                            }
+                            .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure ScrollView fills available space
                         }
-                        .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure ScrollView fills available space
                     }
                 
                     // Sticky Continue button for multi-select questions (fixed at bottom)
                     if question.allowsMultipleSelection {
                         VStack(spacing: 0) {
-                            // Gradient fade to indicate more content above
+                            // Gradient fade to indicate more content above (dark grey to match background)
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0),
-                                    Color(red: 0.05, green: 0.1, blue: 0.35).opacity(0.3),
-                                    Color(red: 0.05, green: 0.1, blue: 0.35)
+                                    Color(red: 0.15, green: 0.15, blue: 0.18).opacity(0),
+                                    Color(red: 0.12, green: 0.12, blue: 0.15).opacity(0.5),
+                                    Color(red: 0.12, green: 0.12, blue: 0.15)
                                 ],
                                 startPoint: .top,
                                 endPoint: .bottom
@@ -452,7 +581,7 @@ struct QuizQuestionView: View {
                                 .padding(.top, 12)
                                 .padding(.bottom, max(geometry.safeAreaInsets.bottom + 16, 32))
                             }
-                            .background(Color(red: 0.05, green: 0.1, blue: 0.35))
+                            .background(Color(red: 0.12, green: 0.12, blue: 0.15)) // Dark grey to match background
                         }
                         .opacity(showOptions ? 1.0 : 0.0)
                         .offset(y: showOptions ? 0 : 20)
@@ -473,6 +602,7 @@ struct QuizQuestionView: View {
             isVisible = false
             showContent = false
             showOptions = false
+            gradientOffset = 0.3
             
                     // Load any previously selected answers
                     selectedOptions = currentAnswers

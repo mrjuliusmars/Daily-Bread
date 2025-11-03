@@ -9,6 +9,7 @@ struct CreatingPlanView: View {
     @State private var pulseScale: CGFloat = 1.0
     @State private var dotsOffset: CGFloat = 0
     @State private var hapticGenerator: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+    @State private var gradientOffset: Double = 0
     
     private let messages = [
         "Analyzing your spiritual journey...",
@@ -19,43 +20,65 @@ struct CreatingPlanView: View {
     
     private var backgroundGradientColors: [Color] {
         [
-            Color(red: 0.15, green: 0.3, blue: 0.55),  // Royal blue top
-            Color(red: 0.1, green: 0.2, blue: 0.45),   // Deeper royal blue
-            Color(red: 0.05, green: 0.1, blue: 0.35)   // Dark royal blue bottom
+            Color(red: 0.15, green: 0.15, blue: 0.18),  // Dark grey top
+            Color(red: 0.12, green: 0.12, blue: 0.15),   // Darker grey middle
+            Color(red: 0.08, green: 0.08, blue: 0.1)    // Darkest grey bottom
         ]
     }
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Royal blue gradient background
+                // Premium animated gradient background (Dark Mode Grey)
                 LinearGradient(
                     colors: backgroundGradientColors,
-                    startPoint: .top,
-                    endPoint: .bottom
+                    startPoint: UnitPoint(x: 0.5 + gradientOffset * 0.1, y: 0),
+                    endPoint: UnitPoint(x: 0.5 - gradientOffset * 0.1, y: 1)
                 )
                 .ignoresSafeArea()
+                .animation(.easeInOut(duration: 6).repeatForever(autoreverses: true), value: gradientOffset)
                 
-                // Floating particles
-                ForEach(0..<12, id: \.self) { index in
+                // Additional depth layer with royal blue accent (exact same hue, lighter)
+                RadialGradient(
+                    colors: [
+                        Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.4), // Lighter tint of royal blue (maintains 1:2:3.4 ratio)
+                        Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.25), // Exact royal blue
+                        Color.clear
+                    ],
+                    center: UnitPoint(x: 0.7 + gradientOffset * 0.05, y: 0.3),
+                    startRadius: 50,
+                    endRadius: 500
+                )
+                .ignoresSafeArea()
+                .blendMode(.screen)
+                .animation(.easeInOut(duration: 3).repeatForever(autoreverses: true), value: gradientOffset)
+                
+                // Enhanced animated particles (royal blue - exact hue) - stable position per page
+                ForEach(0..<15, id: \.self) { index in
                     Circle()
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color(red: 255/255, green: 250/255, blue: 205/255).opacity(0.15),
+                                    Color(red: 0.25, green: 0.5, blue: 0.85).opacity(0.35), // Lighter tint of royal blue
+                                    Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.2), // Exact royal blue
                                     Color.clear
                                 ],
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
                         )
-                        .frame(width: CGFloat.random(in: 40...70))
+                        .frame(width: CGFloat.random(in: 40...80))
                         .position(
                             x: Double((index % 5) * Int(geometry.size.width / 4)),
                             y: Double((index / 5) * Int(geometry.size.height / 4))
                         )
-                        .opacity(0.5)
-                        .blur(radius: 15)
+                        .opacity(0.6)
+                        .blur(radius: 20)
+                        .animation(
+                            .easeInOut(duration: 8)
+                            .repeatForever(autoreverses: false),
+                            value: gradientOffset
+                        )
                 }
                 
                 VStack(spacing: 40) {
@@ -92,7 +115,7 @@ struct CreatingPlanView: View {
                         
                         // Daily Bread logo
                         Group {
-                            if let logoImage = UIImage(named: "Iconpng") {
+                            if let logoImage = UIImage(named: "pngicon") {
                                 Image(uiImage: logoImage)
                                     .resizable()
                                     .scaledToFit()
@@ -170,6 +193,7 @@ struct CreatingPlanView: View {
         }
         .navigationBarHidden(true)
         .onAppear {
+            gradientOffset = 0.3
             hapticGenerator.prepare()
             startLoading()
         }
