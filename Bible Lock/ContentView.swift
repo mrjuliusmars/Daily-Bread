@@ -13,12 +13,14 @@ struct ContentView: View {
     @State private var hasReadToday = false
     @State private var showAppSelection = false
     @State private var showSettings = false
-    @State private var showBibleView = false
     @StateObject private var screenTimeManager = ScreenTimeManager()
     @State private var showTestAlert = false
     @State private var testAlertMessage = ""
     @State private var isBlocked = false
     @State private var gradientOffset: Double = 0
+    @State private var currentStreak: Int = 0
+    @State private var longestStreak: Int = 0
+    @State private var totalDays: Int = 0
     
     var body: some View {
         GeometryReader { geometry in
@@ -110,54 +112,84 @@ struct ContentView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 8)
                     
-                    Spacer()
-                    
-                    // Main content area - Read Today's Verse Button
-                    Button(action: {
-                        let impact = UIImpactFeedbackGenerator(style: .medium)
-                        impact.impactOccurred()
-                        showBibleView = true
-                    }) {
-                        VStack(spacing: 20) {
-                            // Praying hands icon with sparkles
-                            ZStack {
-                                Image(systemName: "hand.raised.fill")
-                                    .font(.system(size: 100))
-                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.9))
+                    // Streak display - prominent gamification
+                    VStack(spacing: 8) {
+                        HStack(spacing: 12) {
+                            // Flame icon
+                            Image(systemName: "flame.fill")
+                                .font(.system(size: 28, weight: .bold))
+                                .foregroundStyle(
+                                    LinearGradient(
+                                        colors: [
+                                            Color.orange,
+                                            Color.red
+                                        ],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                            
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("\(currentStreak)")
+                                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                                 
-                                // Sparkles around the hands
-                                ForEach(0..<3) { index in
-                                    Image(systemName: "sparkle")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
-                                        .offset(
-                                            x: CGFloat(index - 1) * 45,
-                                            y: index == 0 ? -25 : 25
-                                        )
-                                }
+                                Text("Days Putting God First")
+                                    .font(.system(size: 14, weight: .medium))
+                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.8))
                             }
-                            
-                            Text("Read Today's Verse")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
-                            
-                            Text("Unlock your apps by reading God's word")
-                                .font(.system(size: 14, weight: .regular))
-                                .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.8))
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 40)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 16)
                         .background(
-                            RoundedRectangle(cornerRadius: 20)
+                            RoundedRectangle(cornerRadius: 16)
                                 .fill(Color(red: 0.15, green: 0.3, blue: 0.55).opacity(0.6))
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .stroke(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.3), lineWidth: 1.5)
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(
+                                            LinearGradient(
+                                                colors: [
+                                                    Color.orange.opacity(0.4),
+                                                    Color.red.opacity(0.3)
+                                                ],
+                                                startPoint: .topLeading,
+                                                endPoint: .bottomTrailing
+                                            ),
+                                            lineWidth: 2
+                                        )
                                 )
                         )
-                        .padding(.horizontal, 32)
+                        .shadow(color: Color.orange.opacity(0.3), radius: 15, x: 0, y: 5)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .padding(.horizontal, 20)
+                    .padding(.top, 12)
+                    
+                    Spacer()
+                    
+                    // Main content area - Praying hands
+                    VStack(spacing: 20) {
+                        // Praying hands icon with sparkles
+                        ZStack {
+                            Image(systemName: "hand.raised.fill")
+                                .font(.system(size: 120))
+                                .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.8))
+                            
+                            // Sparkles around the hands
+                            ForEach(0..<3) { index in
+                                Image(systemName: "sparkle")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
+                                    .offset(
+                                        x: CGFloat(index - 1) * 50,
+                                        y: index == 0 ? -30 : 30
+                                    )
+                            }
+                        }
+                        
+                        Text("Your bible verse will appear here")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.8))
+                    }
                     
                     Spacer()
                     
@@ -220,9 +252,6 @@ struct ContentView: View {
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
-        .fullScreenCover(isPresented: $showBibleView) {
-            BibleView()
-        }
         .alert("Test Result", isPresented: $showTestAlert) {
             Button("OK", role: .cancel) { }
         } message: {
@@ -230,6 +259,11 @@ struct ContentView: View {
         }
         .onAppear {
             gradientOffset = 0.3
+            loadStreakData()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("VerseReadAndUnlocked"))) { _ in
+            // Refresh streak when verse is read
+            loadStreakData()
         }
     }
     
@@ -329,6 +363,14 @@ struct ContentView: View {
                 print("🧪 TEST ERROR: No saved app selection found in any location")
             }
         }
+    }
+    
+    private func loadStreakData() {
+        let tracker = StreakTracker()
+        currentStreak = tracker.getCurrentStreak()
+        longestStreak = tracker.getLongestStreak()
+        totalDays = tracker.getTotalDays()
+        hasReadToday = tracker.hasReadToday()
     }
 }
 

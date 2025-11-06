@@ -70,6 +70,17 @@
 		225CFFA82EAFF21F00448CAC /* ManagedSettings.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ManagedSettings.framework; path = System/Library/Frameworks/ManagedSettings.framework; sourceTree = SDKROOT; };
 		225CFFBB2EAFF8DF00448CAC /* Daily Bread Monitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Daily Bread Monitor.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		225CFFBC2EAFF8DF00448CAC /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
+		2280BFAB2EBD0DFB007698DC /* Lato-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Black.ttf"; sourceTree = "<group>"; };
+		2280BFAC2EBD0DFB007698DC /* Lato-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BlackItalic.ttf"; sourceTree = "<group>"; };
+		2280BFAD2EBD0DFB007698DC /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
+		2280BFAE2EBD0DFB007698DC /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
+		2280BFAF2EBD0DFB007698DC /* Lato-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Italic.ttf"; sourceTree = "<group>"; };
+		2280BFB02EBD0DFB007698DC /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
+		2280BFB12EBD0DFB007698DC /* Lato-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-LightItalic.ttf"; sourceTree = "<group>"; };
+		2280BFB22EBD0DFB007698DC /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
+		2280BFB32EBD0DFB007698DC /* Lato-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Thin.ttf"; sourceTree = "<group>"; };
+		2280BFB42EBD0DFB007698DC /* Lato-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-ThinItalic.ttf"; sourceTree = "<group>"; };
+		2280BFB52EBD0DFB007698DC /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -192,6 +203,7 @@
 		225CFF212EAA6CCA00448CAC = {
 			isa = PBXGroup;
 			children = (
+				2280BFB62EBD0DFB007698DC /* Lato */,
 				225CFF2C2EAA6CCA00448CAC /* Daily Bread */,
 				225CFF3A2EAA6CCD00448CAC /* Daily BreadTests */,
 				225CFF442EAA6CCD00448CAC /* Daily BreadUITests */,
@@ -223,6 +235,25 @@
 				225C00852EB1579100448CAC /* ManagedSettingsUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2280BFB62EBD0DFB007698DC /* Lato */ = {
+			isa = PBXGroup;
+			children = (
+				2280BFAB2EBD0DFB007698DC /* Lato-Black.ttf */,
+				2280BFAC2EBD0DFB007698DC /* Lato-BlackItalic.ttf */,
+				2280BFAD2EBD0DFB007698DC /* Lato-Bold.ttf */,
+				2280BFAE2EBD0DFB007698DC /* Lato-BoldItalic.ttf */,
+				2280BFAF2EBD0DFB007698DC /* Lato-Italic.ttf */,
+				2280BFB02EBD0DFB007698DC /* Lato-Light.ttf */,
+				2280BFB12EBD0DFB007698DC /* Lato-LightItalic.ttf */,
+				2280BFB22EBD0DFB007698DC /* Lato-Regular.ttf */,
+				2280BFB32EBD0DFB007698DC /* Lato-Thin.ttf */,
+				2280BFB42EBD0DFB007698DC /* Lato-ThinItalic.ttf */,
+				2280BFB52EBD0DFB007698DC /* OFL.txt */,
+			);
+			name = Lato;
+			path = ../Lato;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -510,6 +541,7 @@
 				INFOPLIST_FILE = "Daily Bread Shield Configuration/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread Shield Configuration";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -536,6 +568,7 @@
 				INFOPLIST_FILE = "Daily Bread Shield Configuration/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread Shield Configuration";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -684,8 +717,9 @@
 				DEVELOPMENT_TEAM = W9T8XRTHNS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread";
+				INFOPLIST_KEY_CFBundleDisplayName = "Bible Lock";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				INFOPLIST_KEY_UIAppFonts = "Lato/Lato-Regular.ttf Lato/Lato-Bold.ttf Lato/Lato-Light.ttf Lato/Lato-Thin.ttf Lato/Lato-Black.ttf Lato/Lato-Italic.ttf Lato/Lato-BoldItalic.ttf Lato/Lato-LightItalic.ttf Lato/Lato-ThinItalic.ttf Lato/Lato-BlackItalic.ttf";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -721,8 +755,9 @@
 				DEVELOPMENT_TEAM = W9T8XRTHNS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread";
+				INFOPLIST_KEY_CFBundleDisplayName = "Bible Lock";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.reference";
+				INFOPLIST_KEY_UIAppFonts = "Lato/Lato-Regular.ttf Lato/Lato-Bold.ttf Lato/Lato-Light.ttf Lato/Lato-Thin.ttf Lato/Lato-Black.ttf Lato/Lato-Italic.ttf Lato/Lato-BoldItalic.ttf Lato/Lato-LightItalic.ttf Lato/Lato-ThinItalic.ttf Lato/Lato-BlackItalic.ttf";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -791,6 +826,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G727K2XS4U;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Daily-Bread.Daily-BreadUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -808,6 +844,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = G727K2XS4U;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Daily-Bread.Daily-BreadUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -829,6 +866,7 @@
 				INFOPLIST_FILE = "Daily Bread Monitor/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread Monitor";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -855,6 +893,7 @@
 				INFOPLIST_FILE = "Daily Bread Monitor/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Daily Bread Monitor";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

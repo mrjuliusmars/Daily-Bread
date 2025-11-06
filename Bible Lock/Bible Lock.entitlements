@@ -4,11 +4,6 @@
 <dict>
 	<key>com.apple.developer.family-controls</key>
 	<true/>
-	<key>com.apple.developer.user-fonts</key>
-	<array>
-		<string>system-installation</string>
-		<string>app-usage</string>
-	</array>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>group.com.mjhventures.dailybread</string>
