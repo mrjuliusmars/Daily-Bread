@@ -1,27 +1,36 @@
 //
-//  GoalsEditorView.swift
+//  BibleVersionPickerView.swift
 //  Daily Bread
 //
-//  Detail view for editing goals
+//  Bible version selection with quiz question background
 //
 
 import SwiftUI
-import UIKit
 
-struct GoalsEditorView: View {
+struct BibleVersionPickerView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject private var userSettings = UserSettings.shared
+    @AppStorage("selectedBibleVersion") private var selectedBibleVersion: Int = 0
     @StateObject private var verseManager = DailyVerseManager.shared
-    @State private var selectedGoals: Set<Int> = []
     @State private var isVisible = false
+    @State private var showOptions = false
     @State private var selectedTab: Tab = .more
     
-    private let question8 = quizQuestions.first(where: { $0.id == 8 })!
+    let bibleVersions = [
+        "New International Version (NIV)",
+        "English Standard Version (ESV)",
+        "King James Version (KJV)",
+        "New Living Translation (NLT)",
+        "New King James Version (NKJV)",
+        "Christian Standard Bible (CSB)"
+    ]
     
     var body: some View {
         GeometryReader { geometry in
+            let navHeight = 50 + max(geometry.safeAreaInsets.bottom, 16)
+            let cutoff = navHeight + geometry.safeAreaInsets.bottom + 16
+            let fadeHeight: CGFloat = 72
             ZStack(alignment: .bottom) {
-                // Blurred background image from current verse
+                // Blurred background image from current verse - same as settings
                 if let verse = verseManager.todaysVerse {
                     Image(verse.backgroundImage)
                         .resizable()
@@ -59,117 +68,88 @@ struct GoalsEditorView: View {
                     .frame(width: geometry.size.width, height: geometry.size.height)
                 }
                 
-                let navHeight = 50 + max(geometry.safeAreaInsets.bottom, 16)
-                let cutoff = navHeight + geometry.safeAreaInsets.bottom + 16
-                let fadeHeight: CGFloat = 72
-                ScrollView {
-                    VStack(spacing: 0) {
-                        Spacer()
-                            .frame(height: geometry.safeAreaInsets.top + 80)
-                            .fixedSize()
-                            .opacity(0)
-                        
-                        // Header
-                        VStack(spacing: 16) {
-                            HStack {
-                                Button(action: {
-                                    let impact = UIImpactFeedbackGenerator(style: .light)
-                                    impact.impactOccurred()
-                                    dismiss()
-                                }) {
-                                    Image(systemName: "chevron.left")
-                                        .font(.system(size: 18, weight: .semibold))
-                                        .foregroundColor(.white.opacity(0.8))
-                                        .padding(12)
-                                        .background(Color.white.opacity(0.1))
-                                        .clipShape(Circle())
-                                }
-                                
-                                Spacer()
-                                
-                                Text("Your Goals")
-                                    .font(Font.custom("Lora-SemiBold", size: 24))
-                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
-                                    .tracking(-0.5)
-                                
-                                Spacer()
-                                
-                                // Balance the layout
-                                Spacer()
-                                    .frame(width: 44)
+                VStack(spacing: 0) {
+                    // Top spacing
+                    Spacer()
+                        .frame(height: geometry.safeAreaInsets.top + 80)
+                        .fixedSize()
+                        .opacity(0)
+                    
+                    VStack(spacing: 16) {
+                        HStack {
+                            Button(action: {
+                                let impact = UIImpactFeedbackGenerator(style: .light)
+                                impact.impactOccurred()
+                                dismiss()
+                            }) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 18, weight: .semibold))
+                                    .foregroundColor(.white.opacity(0.8))
+                                    .padding(12)
+                                    .background(Color.white.opacity(0.1))
+                                    .clipShape(Circle())
                             }
-                            .padding(.horizontal, 24)
-                            .padding(.bottom, 8)
                             
-                            Text("Your goals determine which Bible verses you'll receive to support your spiritual journey")
-                                .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.9))
-                                .multilineTextAlignment(.center)
-                                .padding(.horizontal, 24)
-                                .padding(.top, 8)
-                                .lineSpacing(2)
+                            Spacer()
                             
-                            if let subtitle = question8.subtitle {
-                                Text(subtitle)
-                                    .font(.system(size: 13, weight: .regular))
-                                    .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945).opacity(0.6))
-                                    .padding(.horizontal, 24)
-                                    .padding(.top, 4)
-                                    .hidden()
-                            }
+                            Text("Bible Version")
+                                .font(Font.custom("Lora-SemiBold", size: 24))
+                                .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
+                                .tracking(-0.5)
+                            
+                            Spacer()
+                            
+                            Spacer()
+                                .frame(width: 44)
                         }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 8)
                         .opacity(isVisible ? 1.0 : 0.0)
                         .offset(y: isVisible ? 0 : -20)
-                        .animation(.easeOut(duration: 0.4), value: isVisible)
-                        
-                        // Options List
-                        VStack(spacing: 10) {
-                            ForEach(Array(question8.options.enumerated()), id: \.offset) { index, option in
+                    }
+                    .opacity(isVisible ? 1.0 : 0.0)
+                    .animation(.easeOut(duration: 0.4), value: isVisible)
+                    
+                    // Bible Version List
+                    ScrollView {
+                        VStack(spacing: 12) {
+                            ForEach(Array(bibleVersions.enumerated()), id: \.offset) { index, version in
                                 Button(action: {
                                     let impact = UIImpactFeedbackGenerator(style: .medium)
                                     impact.impactOccurred()
-                                    
-                                    if selectedGoals.contains(index) {
-                                        selectedGoals.remove(index)
-                                    } else {
-                                        selectedGoals.insert(index)
-                                    }
-                                    
-                                    userSettings.selectedGoals = selectedGoals
-                                    userSettings.saveSettings()
-                                    updateBibleVerses()
+                                    selectedBibleVersion = index
                                 }) {
-                                    HStack(spacing: 12) {
+                                    HStack(spacing: 16) {
+                                        // Selection indicator
                                         ZStack {
                                             Circle()
                                                 .fill(
-                                                    selectedGoals.contains(index) ?
+                                                    selectedBibleVersion == index ?
                                                     Color.white : Color.white.opacity(0.12)
                                                 )
                                                 .frame(width: 32, height: 32)
                                                 .overlay(
                                                     Circle()
                                                         .stroke(
-                                                            selectedGoals.contains(index) ?
+                                                            selectedBibleVersion == index ?
                                                             Color.white.opacity(0.6) : Color.white.opacity(0.25),
                                                             lineWidth: 1.8
                                                         )
                                                 )
-                                                .shadow(color: selectedGoals.contains(index) ? Color.black.opacity(0.25) : Color.clear, radius: 6, x: 0, y: 2)
+                                                .shadow(color: selectedBibleVersion == index ? Color.black.opacity(0.25) : Color.clear, radius: 6, x: 0, y: 2)
                                             
-                                            if selectedGoals.contains(index) {
+                                            if selectedBibleVersion == index {
                                                 Image(systemName: "checkmark")
                                                     .font(.system(size: 14, weight: .bold))
                                                     .foregroundColor(Color(red: 0.12, green: 0.18, blue: 0.24))
                                             }
                                         }
                                         
-                                        Text(option)
+                                        // Version text
+                                        Text(version)
                                             .font(.system(size: 16, weight: .medium))
                                             .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945))
                                             .multilineTextAlignment(.leading)
-                                            .lineLimit(2)
-                                            .minimumScaleFactor(0.9)
                                             .frame(maxWidth: .infinity, alignment: .leading)
                                             .padding(.trailing, 8)
                                         
@@ -187,13 +167,13 @@ struct GoalsEditorView: View {
                                     )
                                 }
                                 .buttonStyle(PlainButtonStyle())
-                                .opacity(isVisible ? 1.0 : 0.0)
-                                .offset(y: isVisible ? 0 : 20)
-                                .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(Double(index) * 0.05), value: isVisible)
+                                .opacity(showOptions ? 1.0 : 0.0)
+                                .offset(y: showOptions ? 0 : 20)
+                                .animation(.spring(response: 0.6, dampingFraction: 0.8).delay(Double(index) * 0.05), value: showOptions)
                             }
                         }
                         .padding(.horizontal, 24)
-                        .padding(.top, 28)
+                        .padding(.top, 24)
                         .padding(.bottom, navHeight + 20)
                     }
                 }
@@ -230,31 +210,20 @@ struct GoalsEditorView: View {
         .ignoresSafeArea(.all)
         .navigationBarHidden(true)
         .onAppear {
-            // Load current settings
-            selectedGoals = userSettings.selectedGoals
-            
-            // Animate in
             withAnimation(.easeOut(duration: 0.4)) {
                 isVisible = true
             }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                    showOptions = true
+                }
+            }
         }
-    }
-    
-    private func updateBibleVerses() {
-        // TODO: Implement Bible verse update logic based on challenges and goals
-        // This would fetch/recalculate Bible verses based on the user's updated challenges and goals
-        print("📖 Updating Bible verses based on:")
-        print("   Challenges: \(userSettings.getChallengeNames())")
-        print("   Goals: \(userSettings.getGoalNames())")
-        
-        // Save to UserDefaults for later use in verse selection
-        UserDefaults.standard.set(userSettings.getChallengeNames(), forKey: "currentChallenges")
-        UserDefaults.standard.set(userSettings.getGoalNames(), forKey: "currentGoals")
-        UserDefaults.standard.synchronize()
     }
 }
 
 #Preview {
-    GoalsEditorView()
+    BibleVersionPickerView()
 }
 

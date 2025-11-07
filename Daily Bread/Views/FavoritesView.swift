@@ -124,19 +124,19 @@ struct FavoriteVerseCard: View {
                 // Heart icon
                 Image(systemName: "heart.fill")
                     .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.black)
                     .frame(width: 24)
                 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(verse.text)
                         .font(.system(size: 16, weight: .regular))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)
                     
                     Text(verse.reference.uppercased())
                         .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.black.opacity(0.6))
                         .tracking(1)
                 }
                 
@@ -146,7 +146,7 @@ struct FavoriteVerseCard: View {
             .padding(.horizontal, 20)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.white.opacity(0.1))
+                    .fill(Color.white)
                     .overlay(
                         RoundedRectangle(cornerRadius: 16)
                             .stroke(Color.white.opacity(0.2), lineWidth: 1)

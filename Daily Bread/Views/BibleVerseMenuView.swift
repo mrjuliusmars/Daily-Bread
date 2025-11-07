@@ -55,19 +55,19 @@ struct BibleVerseMenuView: View {
                                 HStack(spacing: 16) {
                                     Image(systemName: favoritesManager.isFavorite(verse) ? "heart.fill" : "heart")
                                         .font(.system(size: 20, weight: .medium))
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.black)
                                         .frame(width: 24)
                                     
                                     Text("FAVORITE")
                                         .font(.system(size: 16, weight: .medium, design: .default))
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.black)
                                         .tracking(1)
                                     
                                     Spacer()
                                 }
                                 .padding(.vertical, 16)
                                 .padding(.horizontal, 20)
-                                .background(Color.white.opacity(0.1))
+                                .background(Color.white)
                                 .cornerRadius(12)
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -89,12 +89,12 @@ struct BibleVerseMenuView: View {
                                     ZStack {
                                         // Vertical line (longer)
                                         Rectangle()
-                                            .fill(Color.white)
+                                            .fill(Color.black)
                                             .frame(width: 2.5, height: 20)
                                         
                                         // Horizontal line (shorter, centered)
                                         Rectangle()
-                                            .fill(Color.white)
+                                            .fill(Color.black)
                                             .frame(width: 14, height: 2.5)
                                             .offset(y: -2.5)
                                     }
@@ -102,14 +102,14 @@ struct BibleVerseMenuView: View {
                                     
                                     Text("DEVOTIONAL")
                                         .font(.system(size: 16, weight: .medium, design: .default))
-                                        .foregroundColor(.white)
+                                        .foregroundColor(.black)
                                         .tracking(1)
                                     
                                     Spacer()
                                 }
                                 .padding(.vertical, 16)
                                 .padding(.horizontal, 20)
-                                .background(Color.white.opacity(0.1))
+                                .background(Color.white)
                                 .cornerRadius(12)
                             }
                             .buttonStyle(PlainButtonStyle())
@@ -360,19 +360,19 @@ struct MenuOption: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .frame(width: 24)
                 
                 Text(text)
                     .font(.system(size: 16, weight: .medium, design: .default))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .tracking(1)
                 
                 Spacer()
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 20)
-            .background(Color.white.opacity(0.1))
+            .background(Color.white)
             .cornerRadius(12)
         }
         .buttonStyle(PlainButtonStyle())

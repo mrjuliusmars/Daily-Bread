@@ -67,7 +67,7 @@ let quizQuestions: [QuizQuestion] = [
     QuizQuestion(
         id: 7,
         question: "What challenges are you currently facing?",
-        options: ["Lust", "Alcohol addiction", "Smoking/Drugs", "Anxiety", "Depression", "Anger", "Pride", "Greed", "Envy", "Laziness", "Fear", "Doubt", "Loneliness", "Grief", "Financial stress", "Relationship issues", "Work stress", "Health problems", "None of these"],
+        options: ["Lust", "Alcohol addiction", "Smoking/Drugs", "Anxiety", "Depression", "Anger", "Pride", "Greed", "Envy", "Laziness", "Fear", "Doubt", "Loneliness", "Grief", "Financial stress", "Relationship issues", "Work stress", "Health problems"],
         subtitle: "Select all that apply",
         allowsMultipleSelection: true
     ),
@@ -76,7 +76,7 @@ let quizQuestions: [QuizQuestion] = [
     QuizQuestion(
         id: 8,
         question: "What are your main spiritual goals?",
-        options: ["Grow closer to God", "Overcome specific sins", "Find peace and comfort", "Gain wisdom for decisions", "Strengthen my faith", "Serve others better", "Find my purpose", "All of the above"],
+        options: ["Grow closer to God", "Overcome specific sins", "Find peace and comfort", "Gain wisdom for decisions", "Strengthen my faith", "Serve others better", "Find my purpose"],
         subtitle: "Select all that apply",
         allowsMultipleSelection: true
     ),
@@ -94,7 +94,14 @@ let quizQuestions: [QuizQuestion] = [
     QuizQuestion(
         id: 10,
         question: "Which Bible version do you prefer?",
-        options: ["New International Version (NIV)", "King James Version (KJV)", "New Living Translation (NLT)", "English Standard Version (ESV)", "New King James Version (NKJV)", "New American Bible (NAB)"],
+        options: [
+            "New International Version (NIV)",
+            "English Standard Version (ESV)",
+            "King James Version (KJV)",
+            "New Living Translation (NLT)",
+            "New King James Version (NKJV)",
+            "Christian Standard Bible (CSB)"
+        ],
         subtitle: nil,
         allowsMultipleSelection: false
     )

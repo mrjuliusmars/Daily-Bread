@@ -15,33 +15,33 @@ struct BibleView: View {
     @State private var showVerse = false
     @State private var showReference = false
     @State private var showCrossButton = false
-    @State private var showBottomNav = false
-    @State private var showFavorites = false
-    @State private var showSettings = false
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 if let verse = verseManager.todaysVerse {
-                // Background image
+                    // Background image
                     Image(verse.backgroundImage)
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                    .frame(width: geometry.size.width, height: geometry.size.height)
-                
-                VStack {
-                    // Main content area - Bible verse positioned at top third
-                    VStack(spacing: 24) {
+                        .resizable()
+                        .scaledToFill()
+                        .ignoresSafeArea()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                    
+                    VStack(spacing: 0) {
+                        Spacer()
+                            .frame(height: geometry.size.height * 0.18)
+                        
+                        // Main content area - Bible verse positioned in upper-middle
+                        VStack(spacing: 24) {
                             // Bible verse text - Lora, 30pt, optimal line length, soft ivory
                             Text(verse.text)
                                 .font(loraFont(size: 30, weight: .regular))
                                 .foregroundColor(Color(red: 1.0, green: 0.976, blue: 0.945)) // #FFF9F1 soft ivory
-                            .multilineTextAlignment(.center)
+                                .multilineTextAlignment(.center)
                                 .lineSpacing(2) // Reduced spacing for tighter lines
                                 .frame(maxWidth: min(geometry.size.width * 0.75, 320)) // Optimal line length: 75% of screen or 320pt max
-                            .padding(.horizontal, 32)
+                                .padding(.horizontal, 32)
                                 .opacity(showVerse ? 1.0 : 0.0)
                                 .offset(y: showVerse ? 0 : 10)
                                 .animation(.easeInOut(duration: 2.5), value: showVerse)
@@ -54,89 +54,57 @@ struct BibleView: View {
                                 .opacity(showReference ? 1.0 : 0.0)
                                 .offset(y: showReference ? 0 : -10)
                                 .animation(.easeInOut(duration: 2.5), value: showReference)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, geometry.safeAreaInsets.top + (geometry.size.height - geometry.safeAreaInsets.top) * 0.08)
-                    
-                    Spacer()
-                    
-                    // Bottom navigation bar (separate bar at absolute bottom with 5 icons)
-                    if showBottomNav {
-                        BottomNavigationBar(
-                            showFavorites: $showFavorites,
-                            showSettings: $showSettings,
-                            onDismiss: { dismiss() }
-                        )
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
-                }
-                .overlay(alignment: .bottom) {
-                    // Cross button - centered, floating above navigation bar (NEVER MOVES - fixed position using overlay)
-                    Button(action: {
-                        let impact = UIImpactFeedbackGenerator(style: .medium)
-                        impact.impactOccurred()
+                        }
+                        .frame(maxWidth: .infinity)
                         
-                        verseManager.markVerseAsRead()
-                        showMenu = true
-                    }) {
-                        ZStack {
-                            // Frosted glass background - more transparent
-                            Circle()
-                                .fill(.ultraThinMaterial.opacity(0.6))
-                                .frame(width: 72, height: 72)
-                                .overlay(
-                                    Circle()
-                                        .stroke(
-                                            LinearGradient(
-                                                colors: [
-                                                    Color.white.opacity(0.4),
-                                                    Color.white.opacity(0.15)
-                                                ],
-                                                startPoint: .topLeading,
-                                                endPoint: .bottomTrailing
-                                            ),
-                                            lineWidth: 1
-                                        )
-                                )
-                                .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
-                                .shadow(color: Color.white.opacity(0.05), radius: 2, x: 0, y: -2)
+                        Spacer()
+                        
+                        // Cross button - centered, floating above navigation bar (NEVER MOVES - fixed position)
+                        Button(action: {
+                            let impact = UIImpactFeedbackGenerator(style: .medium)
+                            impact.impactOccurred()
                             
-                            // Icon
-                            Image("pngicon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 52, height: 52)
-                                .foregroundColor(.white)
+                            verseManager.markVerseAsRead()
+                            showMenu = true
+                        }) {
+                            ZStack {
+                                // Frosted glass background - more transparent
+                                Circle()
+                                    .fill(.ultraThinMaterial.opacity(0.6))
+                                    .frame(width: 72, height: 72)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(
+                                                LinearGradient(
+                                                    colors: [
+                                                        Color.white.opacity(0.4),
+                                                        Color.white.opacity(0.15)
+                                                    ],
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing
+                                                ),
+                                                lineWidth: 1
+                                            )
+                                    )
+                                    .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                                    .shadow(color: Color.white.opacity(0.05), radius: 2, x: 0, y: -2)
+                                
+                                // Icon
+                                Image("pngicon")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 52, height: 52)
+                                    .foregroundColor(.white)
+                            }
                         }
+                        .buttonStyle(PlainButtonStyle())
+                        .opacity((showCrossButton && !showMenu) ? 1.0 : 0.0)
+                        .scaleEffect((showCrossButton && !showMenu) ? 1.0 : 0.8)
+                        .animation(.spring(response: 0.4, dampingFraction: 0.7), value: showMenu)
+                        .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showCrossButton)
+                        .padding(.bottom, max(geometry.safeAreaInsets.bottom + 70, 90))
+                        .allowsHitTesting(showCrossButton && !showMenu)
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    .opacity((showCrossButton && !showMenu) ? 1.0 : 0.0)
-                    .scaleEffect((showCrossButton && !showMenu) ? 1.0 : 0.8)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.7), value: showMenu)
-                    .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showCrossButton)
-                    .padding(.bottom, max(geometry.safeAreaInsets.bottom + 20, 40))
-                    .allowsHitTesting(showCrossButton && !showMenu)
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    // Toggle bottom nav on tap (but not when menu is open)
-                    if !showMenu {
-                        let impact = UIImpactFeedbackGenerator(style: .light)
-                        impact.impactOccurred()
-                        
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                            showBottomNav.toggle()
-                        }
-                    }
-                }
-                .onChange(of: showMenu) { newValue in
-                    // Hide bottom nav when menu opens
-                    if newValue && showBottomNav {
-                        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
-                            showBottomNav = false
-                        }
-                    }
-                }
                 } else {
                     // Loading state
                     ProgressView()
@@ -156,12 +124,6 @@ struct BibleView: View {
             if let verse = verseManager.todaysVerse {
                 DevotionalView(verse: verse)
             }
-        }
-        .sheet(isPresented: $showFavorites) {
-            FavoritesView()
-        }
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
         }
         .onAppear {
             verseManager.loadTodaysVerse()
@@ -308,97 +270,6 @@ private func dmSansFont(size: CGFloat, weight: Font.Weight) -> Font {
     print("⚠️ DM Sans not found, using system font at size \(size)")
     #endif
     return .system(size: size, weight: weight, design: .default)
-}
-
-// Bottom Navigation Bar Component
-struct BottomNavigationBar: View {
-    @Binding var showFavorites: Bool
-    @Binding var showSettings: Bool
-    let onDismiss: () -> Void
-    
-    var body: some View {
-        VStack {
-            Spacer()
-            
-            // Navigation bar with 5 icons evenly spaced
-            HStack(spacing: 0) {
-                // Home
-                Button(action: {
-                    let impact = UIImpactFeedbackGenerator(style: .light)
-                    impact.impactOccurred()
-                    onDismiss()
-                }) {
-                    Image(systemName: "house")
-                        .font(.system(size: 22, weight: .regular))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                }
-                
-                // Search
-                Button(action: {
-                    let impact = UIImpactFeedbackGenerator(style: .light)
-                    impact.impactOccurred()
-                    // TODO: Implement search
-                }) {
-                    Image(systemName: "magnifyingglass")
-                        .font(.system(size: 22, weight: .regular))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                }
-                
-                // Book (Bible)
-                Button(action: {
-                    let impact = UIImpactFeedbackGenerator(style: .light)
-                    impact.impactOccurred()
-                    // Already on BibleView, do nothing or refresh
-                }) {
-                    Image(systemName: "book")
-                        .font(.system(size: 22, weight: .regular))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                }
-                
-                // Favorites (Heart)
-                Button(action: {
-                    let impact = UIImpactFeedbackGenerator(style: .light)
-                    impact.impactOccurred()
-                    showFavorites = true
-                }) {
-                    Image(systemName: "heart")
-                        .font(.system(size: 22, weight: .regular))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                }
-                
-                // Settings (3 dots)
-                Button(action: {
-                    let impact = UIImpactFeedbackGenerator(style: .light)
-                    impact.impactOccurred()
-                    showSettings = true
-                }) {
-                    Image(systemName: "ellipsis")
-                        .font(.system(size: 22, weight: .regular))
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                }
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 16)
-            .background(
-                // Transparent - let background show through
-                Rectangle()
-                    .fill(Color.clear)
-            )
-            .padding(.bottom, 0)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
-        .ignoresSafeArea(edges: .bottom)
-    }
 }
 
 #Preview {

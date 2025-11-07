@@ -28,8 +28,8 @@ class UserSettings: ObservableObject {
         } else {
             // Try to load from onboarding quiz answers
             if let quizAnswers = userDefaults.dictionary(forKey: "quizAnswers") as? [String: [Int]],
-               let question4Answers = quizAnswers["4"] {
-                selectedChallenges = Set(question4Answers)
+               let question7Answers = quizAnswers["7"] {
+                selectedChallenges = Set(question7Answers)
                 saveSettings()
             }
         }
@@ -40,8 +40,8 @@ class UserSettings: ObservableObject {
         } else {
             // Try to load from onboarding quiz answers
             if let quizAnswers = userDefaults.dictionary(forKey: "quizAnswers") as? [String: [Int]],
-               let question5Answers = quizAnswers["5"] {
-                selectedGoals = Set(question5Answers)
+               let question8Answers = quizAnswers["8"] {
+                selectedGoals = Set(question8Answers)
                 saveSettings()
             }
         }
@@ -55,19 +55,19 @@ class UserSettings: ObservableObject {
     
     // Get challenge names from selected indices
     func getChallengeNames() -> [String] {
-        let question4 = quizQuestions.first(where: { $0.id == 4 })!
+        let question7 = quizQuestions.first(where: { $0.id == 7 })!
         return selectedChallenges.compactMap { index in
-            guard index < question4.options.count else { return nil }
-            return question4.options[index]
+            guard index < question7.options.count else { return nil }
+            return question7.options[index]
         }
     }
     
     // Get goal names from selected indices
     func getGoalNames() -> [String] {
-        let question5 = quizQuestions.first(where: { $0.id == 5 })!
+        let question8 = quizQuestions.first(where: { $0.id == 8 })!
         return selectedGoals.compactMap { index in
-            guard index < question5.options.count else { return nil }
-            return question5.options[index]
+            guard index < question8.options.count else { return nil }
+            return question8.options[index]
         }
     }
 }
