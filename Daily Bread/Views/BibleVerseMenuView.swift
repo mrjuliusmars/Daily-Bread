@@ -18,6 +18,7 @@ struct BibleVerseMenuView: View {
     @State private var overlayOpacity: Double = 0
     @State private var showShareSheet = false
     @State private var shareImage: UIImage?
+    private let ivory = Color(red: 1.0, green: 0.976, blue: 0.945)
     
     var body: some View {
         GeometryReader { geometry in
@@ -55,20 +56,27 @@ struct BibleVerseMenuView: View {
                                 HStack(spacing: 16) {
                                     Image(systemName: favoritesManager.isFavorite(verse) ? "heart.fill" : "heart")
                                         .font(.system(size: 20, weight: .medium))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(ivory)
                                         .frame(width: 24)
                                     
                                     Text("FAVORITE")
-                                        .font(.system(size: 16, weight: .medium, design: .default))
-                                        .foregroundColor(.black)
+                                        .font(.system(size: 16, weight: .semibold, design: .default))
+                                        .foregroundColor(ivory)
                                         .tracking(1)
                                     
                                     Spacer()
                                 }
                                 .padding(.vertical, 16)
                                 .padding(.horizontal, 20)
-                                .background(Color.white)
-                                .cornerRadius(12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .fill(Color.white.opacity(0.08))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 18)
+                                                .stroke(Color.white.opacity(0.25), lineWidth: 1.2)
+                                        )
+                                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                                )
                             }
                             .buttonStyle(PlainButtonStyle())
                             .opacity(isVisible ? 1.0 : 0.0)
@@ -89,28 +97,35 @@ struct BibleVerseMenuView: View {
                                     ZStack {
                                         // Vertical line (longer)
                                         Rectangle()
-                                            .fill(Color.black)
+                                            .fill(ivory)
                                             .frame(width: 2.5, height: 20)
                                         
                                         // Horizontal line (shorter, centered)
                                         Rectangle()
-                                            .fill(Color.black)
+                                            .fill(ivory)
                                             .frame(width: 14, height: 2.5)
                                             .offset(y: -2.5)
                                     }
                                     .frame(width: 24, height: 24)
                                     
                                     Text("DEVOTIONAL")
-                                        .font(.system(size: 16, weight: .medium, design: .default))
-                                        .foregroundColor(.black)
+                                        .font(.system(size: 16, weight: .semibold, design: .default))
+                                        .foregroundColor(ivory)
                                         .tracking(1)
                                     
                                     Spacer()
                                 }
                                 .padding(.vertical, 16)
                                 .padding(.horizontal, 20)
-                                .background(Color.white)
-                                .cornerRadius(12)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 18)
+                                        .fill(Color.white.opacity(0.08))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 18)
+                                                .stroke(Color.white.opacity(0.25), lineWidth: 1.2)
+                                        )
+                                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                                )
                             }
                             .buttonStyle(PlainButtonStyle())
                             .opacity(isVisible ? 1.0 : 0.0)
@@ -134,7 +149,7 @@ struct BibleVerseMenuView: View {
                             
                             // Unlock Apps - unlocks apps
                             MenuOption(
-                                icon: "lock.open.fill",
+                                icon: "lock.fill",
                                 text: "UNLOCK APPS",
                                 action: { doneForToday() }
                             )
@@ -350,6 +365,7 @@ struct MenuOption: View {
     let icon: String
     let text: String
     let action: () -> Void
+    private let ivory = Color(red: 1.0, green: 0.976, blue: 0.945)
     
     var body: some View {
         Button(action: {
@@ -360,20 +376,27 @@ struct MenuOption: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.system(size: 20, weight: .medium))
-                    .foregroundColor(.black)
+                    .foregroundColor(ivory)
                     .frame(width: 24)
                 
                 Text(text)
-                    .font(.system(size: 16, weight: .medium, design: .default))
-                    .foregroundColor(.black)
+                    .font(.system(size: 16, weight: .semibold, design: .default))
+                    .foregroundColor(ivory)
                     .tracking(1)
                 
                 Spacer()
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 20)
-            .background(Color.white)
-            .cornerRadius(12)
+            .background(
+                RoundedRectangle(cornerRadius: 18)
+                    .fill(Color.white.opacity(0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 18)
+                            .stroke(Color.white.opacity(0.25), lineWidth: 1.2)
+                    )
+                    .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+            )
         }
         .buttonStyle(PlainButtonStyle())
     }
